@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-02T15:53:33+08:00</updated>
+  <updated>2017-04-02T15:55:21+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Debug_test]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/02/debug-test/"/>
+    <updated>2017-04-02T15:55:02+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/02/debug-test</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Debug]]></title>
