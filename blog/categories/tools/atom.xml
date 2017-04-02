@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tools | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2017-04-02T16:37:57+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android Studio的一些配置]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/02/android-studio-config/"/>
+    <updated>2017-04-02T16:35:47+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/02/android-studio-config</id>
+    <content type="html"><![CDATA[<h3>关于各种gradle</h3>
+
+<ul>
+<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件,对这个module的配置都在这个build.gradle中</li>
+</ul>
+
+
+<pre><code>apply plugin: 'com.android.application' //说明这个module是一个application
+apply plugin: 'com.android.library' //说明这个module是一个library
+
+//声明此module需要哪些依赖
+dependencies { 
+    compile fileTree(dir: 'libs', include: ['*.jar']) // lib目录下所有的jar包
+    compile project(':DDBaseUILib') //对module DDBaseUILib 依赖
+    compile(name: 'DDBaseUILib', ext: 'aar') //对lib中的DDBaseUILib.aar文件依赖
+}
+</code></pre>
+
+<ul>
+<li>project目录下的build.gradle,对整个project的配置</li>
+</ul>
+
+
+<pre><code>buildscript {
+    repositories {//依赖仓库
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.3' //grale插件版本
+    }
+}
+</code></pre>
+
+<ul>
+<li>project目录下的settings.gradle</li>
+</ul>
+
+
+<pre><code>//include进来的module才会进行编译,因此建议我们只需include我们正在开发的module和必须依赖的module,以减少不必要的编译时间
+
+include ':app'
+//include ':DDBaseUILib'
+</code></pre>
+
+<ul>
+<li>project目录下的gradle.propertities</li>
+</ul>
+
+
+<pre><code>//构件工具gradle的配置,建议添加如下配置,加快构建速度
+org.gradle.jvmargs=-Xmx2048m -XX\:MaxPermSize\=512m -XX\:+HeapDumpOnOutOfMemoryError -Dfile.encoding\=UTF-8
+org.gradle.daemon=true // 开启守护进程
+org.gradle.parallel=true // 平行编译
+</code></pre>
+
+<h3>加大内存分配</h3>
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/8x1mcn4qov9dzg8e6t05d1wr/image_1ark5t9g519n61t82hpk4u040n9.png" alt="help -&gt; edit custom vm options" />
+改成</p>
+
+<pre><code>-Xms2048m
+-Xmx4096m
+-XX:MaxPermSize=1024m
+-XX:ReservedCodeCacheSize=1024m
+-XX:+UseCompressedOops
+</code></pre>
+
+<p>重启AS，勾选设置中的show memory indicator,右下角会出现
+<img src="http://static.zybuluo.com/tmac010sjh/bxm8f6zvczpgoc6bbmns178a/image_1ark5mvcaf2k2l51gbv1obu1kucm.png" alt="标识" />
+查看是否生效</p>
+
+<hr />
+
+<h3>设置(optional)</h3>
+
+<ul>
+<li>自动导包</li>
+</ul>
+
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/hy8azpmob46mrw36ddro0y3g/image_1ark62nb917mseg1i5s3k51kivm.png" alt="image_1ark62nb917mseg1i5s3k51kivm.png-80.4kB" /></p>
+
+<ul>
+<li>代码提示，关闭大小写敏感</li>
+</ul>
+
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/g8wm296b5909n9accaspmll0/image_1ark674sm6i41rmnscqt2e1cpi13.png" alt="image_1ark674sm6i41rmnscqt2e1cpi13.png-113.1kB" /></p>
+
+<ul>
+<li>代码生成,按照一般的命名规范,成员变量前添加m,静态添加s</li>
+</ul>
+
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/tox98ay3nv12i94ld452jdus/image_1ark6kfnsuqo9094ud16fvcbh1g.png" alt="image_1ark6kfnsuqo9094ud16fvcbh1g.png-140.9kB" /></p>
+
+<hr />
+
+<h3>常用快捷键</h3>
+
+<ul>
+<li>推荐使用Android Studio默认快捷键,比eclipse更强大</li>
+<li>格式化代码(请多多使用)：cmd＋option＋l</li>
+<li>代码完成：
+
+<ul>
+<li>enter 或者 tab 注意区别</li>
+<li>可同时按shift＋cmd＋enter,将在行尾自动添加分号,对于if,将自动添加大括号</li>
+</ul>
+</li>
+<li>进入下一行：shift＋enter</li>
+<li>代码提示：option ＋ enter</li>
+<li>查找调用：option ＋ F7</li>
+<li>查看文档：F1</li>
+<li>提升为成员变量：cmd＋option＋f</li>
+<li>提取局部变量：cmd＋option＋v</li>
+<li>大小写转换：cmd＋shift＋u</li>
+<li>代码生成器：cmd＋n</li>
+<li>搜索：
+
+<ul>
+<li>搜索类：cmd＋o</li>
+<li>搜索文件(范围涵盖搜索类)：cmd＋n</li>
+<li>搜索一个action(比如run,clean,rebuild)：cmd＋shift＋a</li>
+<li>搜索所有的(涵盖上面所有的)：双击shift</li>
+</ul>
+</li>
+<li>大杀器：代码模版</li>
+</ul>
+
+
+<hr />
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/221i237ieuwnfvmam95ujgpz/image_1ark9k4mq1dlse8m1181i741sc91t.png" alt="image_1ark9k4mq1dlse8m1181i741sc91t.png-130.8kB" /></p>
+
+<p>如图是一些内置的代码模板,我们可以添加自己的代码模版,很方便
+下面是一个栗子</p>
+
+<pre><code>当我修改别人的代码时,需要添加一些注释来说明修改的原因
+像这样：// add by tmac on 16/9/9 添加非空判断
+我希望输入adb然后回车就可以
+</code></pre>
+
+<p><img src="http://static.zybuluo.com/tmac010sjh/wlu0plrk2hzyup3ff6dp69lf/image_1asjsuikpu251mk37eenl11veem.png" alt="image_1asjsj6rg134q143u1c6i13fr6nc9.png-153.6kB" /></p>
+
+<ul>
+<li>点击右边的加号,在上图箭头指示的位置输入内容</li>
+<li>点击Define</li>
+<li><img src="http://static.zybuluo.com/tmac010sjh/48jen5msl8kcaktlpf6yl7j0/image_1asjt1mf6197n1lfc1ppn1p79161713.png" alt="image_1asjt1mf6197n1lfc1ppn1p79161713.png-19.3kB" /></li>
+<li>点击Edit variables,选择现有的函数</li>
+<li><img src="http://static.zybuluo.com/tmac010sjh/2rw5fot0ti2hbc0o6gityywm/image_1asjtvav9mv1g1u19vaul6hc51g.png" alt="image_1asjtvav9mv1g1u19vaul6hc51g.png-25.1kB" /></li>
+<li>结束&hellip;</li>
+</ul>
+
+
+<h3>推荐一些插件</h3>
+
+<ul>
+<li>android butterknife zelezny配合butterknife使用</li>
+<li>gsonformat 将json转化成对象</li>
+<li>android parcelable code generator 自动生成系列化所需代码</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
