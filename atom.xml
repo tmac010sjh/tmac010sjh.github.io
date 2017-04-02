@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-02T17:33:06+08:00</updated>
+  <updated>2017-04-02T17:35:29+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -43,6 +43,9 @@
 </span><span class='line'>    compile project(':DDBaseUILib') //对module DDBaseUILib 依赖
 </span><span class='line'>    compile(name: 'DDBaseUILib', ext: 'aar') //对lib中的DDBaseUILib.aar文件依赖
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
 
 
 <ul>

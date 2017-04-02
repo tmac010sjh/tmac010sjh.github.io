@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-02T17:33:06+08:00</updated>
+  <updated>2017-04-02T17:35:29+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -35,6 +35,9 @@ dependencies {
     compile(name: 'DDBaseUILib', ext: 'aar') //对lib中的DDBaseUILib.aar文件依赖
 }
 </code></pre>
+
+<!--more-->
+
 
 <ul>
 <li>project目录下的build.gradle,对整个project的配置</li>
