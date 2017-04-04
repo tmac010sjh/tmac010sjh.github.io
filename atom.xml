@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-04T16:53:43+08:00</updated>
+  <updated>2017-04-04T16:57:48+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Provider com.google.auto.service.processor.AutoServiceProcessor Could Not Be Instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误]]></title>
+    <title type="html"><![CDATA[使用java注解处理器,遇到的一个错误]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/"/>
     <updated>2017-04-04T16:10:34+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor</id>
