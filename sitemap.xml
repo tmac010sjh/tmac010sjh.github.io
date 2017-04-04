@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://tmac010sjh.github.io/blog/2017/04/04/beautiful-retrofit/</loc>
+<lastmod>2017-04-04T16:03:38+08:00</lastmod>
+</url>
+<url>
+<loc>http://tmac010sjh.github.io/blog/2017/04/04/enable-cache-post-request-in-okhttp/</loc>
+<lastmod>2017-04-04T16:01:23+08:00</lastmod>
+</url>
+<url>
 <loc>http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/</loc>
 <lastmod>2017-04-04T15:45:23+08:00</lastmod>
 </url>
@@ -19,5 +27,8 @@
 </url>
 <url>
 <loc>http://tmac010sjh.github.io/blog/categories/rxjava/</loc>
+</url>
+<url>
+<loc>http://tmac010sjh.github.io/blog/categories/todo/</loc>
 </url>
 </urlset>

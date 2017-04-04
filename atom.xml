@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-04T16:00:14+08:00</updated>
+  <updated>2017-04-04T16:05:55+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Retrofit解析]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/04/beautiful-retrofit/"/>
+    <updated>2017-04-04T16:03:38+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/04/beautiful-retrofit</id>
+    <content type="html"><![CDATA[<!--more-->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[让okhttp支持缓冲post请求]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/04/enable-cache-post-request-in-okhttp/"/>
+    <updated>2017-04-04T16:01:23+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/04/enable-cache-post-request-in-okhttp</id>
+    <content type="html"><![CDATA[<!--more-->
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用RxJava]]></title>
