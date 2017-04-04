@@ -9,7 +9,7 @@
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="关于各种gradle 一个project由多个module组成，每个module的根目录都会有一个build.gradle文件,对这个module的配置都在这个build.gradle中 1
+  <meta name="description" content="关于各种gradle 一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项 1
 2
 3
 4
@@ -18,7 +18,7 @@
 7
 8
 9
-apply plugin: 'com.android. &hellip;">
+apply plugin: 'com.android.application' // &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -108,7 +108,7 @@ apply plugin: 'com.android. &hellip;">
   <div class="entry-content"><h3>关于各种gradle</h3>
 
 <ul>
-<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件,对这个module的配置都在这个build.gradle中</li>
+<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项</li>
 </ul>
 
 
@@ -127,8 +127,8 @@ apply plugin: 'com.android. &hellip;">
 </span><span class='line'>//声明此module需要哪些依赖
 </span><span class='line'>dependencies { 
 </span><span class='line'>    compile fileTree(dir: 'libs', include: ['*.jar']) // lib目录下所有的jar包
-</span><span class='line'>    compile project(':DDBaseUILib') //对module DDBaseUILib 依赖
-</span><span class='line'>    compile(name: 'DDBaseUILib', ext: 'aar') //对lib中的DDBaseUILib.aar文件依赖
+</span><span class='line'>    compile project(':XXXLib') //依赖当前工程中的XXXLib
+</span><span class='line'>    compile(name: 'XXXLib', ext: 'aar') //依赖lib中的XXXLib.aar文件
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 

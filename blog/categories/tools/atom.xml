@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-02T17:35:29+08:00</updated>
+  <updated>2017-04-04T15:40:48+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<h3>关于各种gradle</h3>
 
 <ul>
-<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件,对这个module的配置都在这个build.gradle中</li>
+<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项</li>
 </ul>
 
 
@@ -31,8 +31,8 @@ apply plugin: 'com.android.library' //说明这个module是一个library
 //声明此module需要哪些依赖
 dependencies { 
     compile fileTree(dir: 'libs', include: ['*.jar']) // lib目录下所有的jar包
-    compile project(':DDBaseUILib') //对module DDBaseUILib 依赖
-    compile(name: 'DDBaseUILib', ext: 'aar') //对lib中的DDBaseUILib.aar文件依赖
+    compile project(':XXXLib') //依赖当前工程中的XXXLib
+    compile(name: 'XXXLib', ext: 'aar') //依赖lib中的XXXLib.aar文件
 }
 </code></pre>
 
@@ -40,7 +40,7 @@ dependencies {
 
 
 <ul>
-<li>project目录下的build.gradle,对整个project的配置</li>
+<li>project目录下的build.gradle是对整个project的配置</li>
 </ul>
 
 
@@ -63,7 +63,7 @@ dependencies {
 <pre><code>//include进来的module才会进行编译,因此建议我们只需include我们正在开发的module和必须依赖的module,以减少不必要的编译时间
 
 include ':app'
-//include ':DDBaseUILib'
+//include ':xxxLib'
 </code></pre>
 
 <ul>
@@ -124,7 +124,7 @@ org.gradle.parallel=true // 平行编译
 
 <ul>
 <li>推荐使用Android Studio默认快捷键,比eclipse更强大</li>
-<li>格式化代码(请多多使用)：cmd＋option＋l</li>
+<li>格式化代码：cmd＋option＋l</li>
 <li>代码完成：
 
 <ul>
@@ -149,7 +149,7 @@ org.gradle.parallel=true // 平行编译
 <li>搜索所有的(涵盖上面所有的)：双击shift</li>
 </ul>
 </li>
-<li>大杀器：代码模版</li>
+<li>代码模版</li>
 </ul>
 
 
