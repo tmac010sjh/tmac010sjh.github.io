@@ -9,7 +9,11 @@
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="">
+  <meta name="description" content="最近在研究java注解处理器，研究了butterknife的实现，于是准备按他的思路也实现一个类似的东西， 新建一个java lib，依赖如下 1
+2
+3
+// compile 'com.squareup:javapoet:1.8.0’ 用于方便的生成java文件
+// compile 'com. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,7 +84,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/04/04/beautiful-retrofit/">Retrofit解析</a></h1>
+      <h1 class="entry-title"><a href="/blog/2017/04/04/issue-java-processor/">错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor Could Not Be Instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误</a></h1>
     
     
       <p class="meta">
@@ -89,51 +93,32 @@
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:03:38+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:03 pm</span></time>
+<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"></div>
+  <div class="entry-content"><blockquote><p>最近在研究java注解处理器，研究了butterknife的实现，于是准备按他的思路也实现一个类似的东西，</p></blockquote>
+
+<p>新建一个java lib，依赖如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//    compile 'com.squareup:javapoet:1.8.0’ 用于方便的生成java文件
+</span><span class='line'>//    compile 'com.google.auto.service:auto-service:1.0-rc2’ 用于方便的注册我的处理器
+</span><span class='line'>//    compile 'com.google.auto:auto-common:0.6'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于项目的原因，需要将依赖的类库尽量以jar或者aar的形式加入到项目中，但是发现如果将<code>com.google.auto.service:auto-service:1.0-rc2</code>以jar包的形式引入则会报标题所示的错误</p>
+
+<p>分析如下
+其中auto-service不能以jar包的形式放到lib中，必须是依赖形式引入，考虑原因：auto－service本身也是一个注解生成器，所以需要在编译之前运行，所以gradle在校验的时候，
+auto－service已经在运行，为我的processor生成meta－info文件。。。</p>
+</div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/04/beautiful-retrofit/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/04/04/enable-cache-post-request-in-okhttp/">让okhttp支持缓冲post请求</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-04-04T16:01:23+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:01 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/04/enable-cache-post-request-in-okhttp/">阅读全文 &rarr;</a>
-    </footer>
   
 
 
@@ -243,8 +228,8 @@
     <section>
 <h1>文章分类</h1>
 <ul id="categories">
+<li class='category'><a href='/blog/categories/issue/'>issue (1)</a></li>
 <li class='category'><a href='/blog/categories/rxjava/'>rxjava (1)</a></li>
-<li class='category'><a href='/blog/categories/todo/'>todo (2)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
 
 </ul>
@@ -254,11 +239,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2017/04/04/beautiful-retrofit/">Retrofit解析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/04/04/enable-cache-post-request-in-okhttp/">让okhttp支持缓冲post请求</a>
+        <a href="/blog/2017/04/04/issue-java-processor/">错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor Could Not Be Instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误</a>
       </li>
     
       <li class="post">

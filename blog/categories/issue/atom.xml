@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Issue | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/issue/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2017-04-04T16:47:54+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor Could Not Be Instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/"/>
+    <updated>2017-04-04T16:10:34+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor</id>
+    <content type="html"><![CDATA[<blockquote><p>最近在研究java注解处理器，研究了butterknife的实现，于是准备按他的思路也实现一个类似的东西，</p></blockquote>
+
+<p>新建一个java lib，依赖如下</p>
+
+<pre><code>//    compile 'com.squareup:javapoet:1.8.0’ 用于方便的生成java文件
+//    compile 'com.google.auto.service:auto-service:1.0-rc2’ 用于方便的注册我的处理器
+//    compile 'com.google.auto:auto-common:0.6'
+</code></pre>
+
+<p>由于项目的原因，需要将依赖的类库尽量以jar或者aar的形式加入到项目中，但是发现如果将<code>com.google.auto.service:auto-service:1.0-rc2</code>以jar包的形式引入则会报标题所示的错误</p>
+
+<p>分析如下
+其中auto-service不能以jar包的形式放到lib中，必须是依赖形式引入，考虑原因：auto－service本身也是一个注解生成器，所以需要在编译之前运行，所以gradle在校验的时候，
+auto－service已经在运行，为我的processor生成meta－info文件。。。</p>
+]]></content>
+  </entry>
+  
+</feed>
