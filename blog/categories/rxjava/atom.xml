@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rxjava | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2017-04-04T15:57:19+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用RxJava]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/"/>
+    <updated>2017-04-04T15:45:23+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android</id>
+    <content type="html"><![CDATA[<blockquote><p>所有的东西都像流一样传播,无论是数据还是异常</p></blockquote>
+
+<h3>Flowable/Observable</h3>
+
+<blockquote><p>被观察者，也就是被消费的事件源</p></blockquote>
+
+<h3>Consumer/Observer</h3>
+
+<blockquote><p>观察者,也就是消费者</p></blockquote>
+
+<h3>创建一个Flowable</h3>
+
+<pre><code>//创建一个被观察者(也就是事件源)，当有人订阅他的时候，他就依次发射1,2,3
+Flowable&lt;Integer&gt; simpleFlowable = Flowable.just(1,2,3);
+
+//自己定义逻辑
+Flowable&lt;String&gt; standardFlowable = Flowable.create(new FlowableOnSubscribe&lt;String&gt;() {
+                @Override
+                public void subscribe(FlowableEmitter&lt;String&gt; e) throws Exception {
+                    //e这里可以理解成订阅者对象
+                    if(xxx){
+                        e.onNext("hello RxJava");//发射字符串
+                        e.onComplete();//标记该事件已结束
+                    }else{
+                        e.onError(new CustomException());//或者这里抛出某种异常,让下层知道
+                    }
+                }
+            }, BackpressureStrategy.LATEST);//这里是背压策略
+</code></pre>
+
+<h3>创建一个Consumer或者Subscriber</h3>
+
+<pre><code>//标准版
+Subscriber&lt;Integer&gt; standardSubscriber = new Subscriber() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                //刚发生订阅时的回调
+            }
+
+            @Override
+            public void onNext(Integer i) {
+                //接收到流
+                //如果我订阅了上面的justFlowable
+                //这里就依次打印1，2，3
+                Log.d("DEBUG","value is "+ i);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                //出现异常
+            }
+
+            @Override
+            public void onComplete() {
+                //该事件流结束
+            }
+        }
+//简易版
+Consumer&lt;Integer&gt; simpleConsumer = new Consumer&lt;Integer&gt;() {
+            @Override
+            public void accept(@NonNull Integer integer) throws Exception {
+                //等同于上面的onNext(Integer i);
+            }
+        };
+</code></pre>
+
+<h3>建立联系<code>subscribe</code></h3>
+
+<p>用上面的栗子
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//标准版
+</span><span class='line'>standardFlowable.subscribe(standardSubscriber);
+</span><span class='line'>//简易版
+</span><span class='line'>simpleFlowable.subscribe(simpleConsumer);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;需要注意的是如果这里只用simpleConsumer,在整个流传递的过程中如果有异常会直接抛出,所以还需要加一个异常处理的Consumer,
+</span><span class='line'>subscribe()方法的第二个参数便是Consumer&lt;Throwable&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;也就是
+</span><span class='line'>simpleFlowable.subscribe(simpleConsumer,new Consumer&lt;Throwable&gt;() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public void accept(@NonNull Throwable throwable) throws Exception {
+</span><span class='line'>                    //异常处理
+</span><span class='line'>                    //show error
+</span><span class='line'>            }
+</span><span class='line'>        });&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;### 线程切换
+</span><span class='line'>&gt; 耗时操作去子线程,更新ui回到主线程
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Flowable crazyFlowable = Flowable.create(xxx);
+</span><span class='line'>crazyFlowable.subscribeOn(Schedulers.io())//订阅线程,也就是执行事件的线程
+</span><span class='line'>             .observeOn(AndroidSchedulers.mainThread())//观察线程,将事件发送到的线程,也就是观察者执行的线程
+</span><span class='line'>             .subscribe(new Consumer&lt;Integer&gt;() {
+</span><span class='line'>                        @Override
+</span><span class='line'>                        public void accept(@NonNull Integer integer) throws Exception {
+</span><span class='line'>                            //更新UI
+</span><span class='line'>                        }
+</span><span class='line'>                    });&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>&gt; 可以去看下[这里面的几张图体会一下](http://tomstechnicalblog.blogspot.hk/2016/02/rxjava-understanding-observeon-and.html)
+</span><span class='line'>
+</span><span class='line'>### 常用的操作符
+</span><span class='line'>- `map`将一个对象转换成另一个对象
+</span><span class='line'>将上面栗子里面的int转换成String
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;standardFlowable.map(new Function&lt;Integer, String&gt;() {
+</span><span class='line'>                @Override
+</span><span class='line'>                public String apply(@NonNull Integer integer) throws Exception {
+</span><span class='line'>                    return integer.toString();//自己定义的转换规则
+</span><span class='line'>                }
+</span><span class='line'>            }).subscribe(new Consumer&lt;String&gt;() {//订阅
+</span><span class='line'>                @Override
+</span><span class='line'>                public void accept(@NonNull String s) throws Exception {
+</span><span class='line'>                        //这里接受的值从Integer变成了String
+</span><span class='line'>                }
+</span><span class='line'>            });&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>- `flatMap`将一个Flowable转换成另一个Flowable
+</span><span class='line'>
+</span><span class='line'>&gt;使用场景,比如我要拉接口A,但是接口A的某个参数是接口B返回的,所以这里就需要先拉接口B
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Flowable&lt;String&gt; apiB = Flowable.just(&ldquo;params&rdquo;);//模拟接口B,他会返回一个参数
+</span><span class='line'>apiB.flatMap(new Function&lt;String, Publisher&lt;Model&gt;&gt;() {
+</span><span class='line'>                @Override
+</span><span class='line'>                public Publisher&lt;Model&gt; apply(@NonNull String s) throws Exception {
+</span><span class='line'>                //这里我拿到参数s,然后去请求接口A,这个接口返回一个model
+</span><span class='line'>                Flowable&lt;Model&gt; apiA = Flowable.create(xxxxxx);
+</span><span class='line'>                return apiA;//让流继续往下走
+</span><span class='line'>                }
+</span><span class='line'>            }).subscribe(new Consumer&lt;Model&gt;() {//订阅
+</span><span class='line'>                @Override
+</span><span class='line'>                public void accept(@NonNull Model model) throws Exception {
+</span><span class='line'>                    //这里拿到model
+</span><span class='line'>                }
+</span><span class='line'>            });</span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li><code>compose</code>不要让链式断掉,代码复用</li>
+</ul>
+
+
+<blockquote><p><code>compose</code>接受一个FlowableTransformer<code>&lt;</code>Upstream, Downstream<code>&gt;</code>,Upstream是上流传过来的类型,
+当前栗子是Integer类型, Downstream是经过处理后继续往下传的类型,当前栗子里面并没有改变,依旧是Integer</p></blockquote>
+
+<pre><code>public class RxUtil{
+
+    //android中常用的线程切换的工具方法
+    public static &lt;T&gt; FlowableTransformer&lt;T, T&gt; scheduler() {
+        return new FlowableTransformer&lt;T, T&gt;() {
+            @Override
+            public Publisher&lt;T&gt; apply(Flowable&lt;T&gt; upstream) {
+                return upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+}
+</code></pre>
+
+<p>使用</p>
+
+<pre><code>Flowable.just(1)
+        .compose(RxUtil.&lt;Integer&gt;scheduler())
+        .subscribe(new Consumer&lt;Integer&gt;(){
+            @overide
+            public void accept(@NonNull Integer i) throw Exception{
+                //do something
+            }
+        });
+等价于
+Flowable.just(1)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer&lt;Integer&gt;(){
+            @overide
+            public void accept(@NonNull Integer i) throw Exception{
+                //do something
+            }
+        });
+</code></pre>
+
+<ul>
+<li>doOnNext</li>
+</ul>
+
+
+<pre><code>Flowable.just("sth")//假设这是一个网络请求返回的Flowable
+                .doOnNext(new Consumer&lt;String&gt;() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        //在这里我们可以把数据缓存下来～
+                    }
+                });
+</code></pre>
+
+<ul>
+<li>onErrorResumeNext
+
+<blockquote><p>当出现错误时,我们可以做中途截获</p></blockquote></li>
+</ul>
+
+
+<pre><code>//假设我们的获取数据的策略是先从本地取,如果没有的话,就走网络
+Flowable&lt;String&gt; cacheFlowable = Flowable.create(new FlowableOnSubscribe&lt;String&gt;() {
+                @Override
+                public void subscribe(FlowableEmitter&lt;String&gt; e) throws Exception {
+                     if(没有缓存){
+                        e.onError(new NoCacheException());//或者这里抛出某种异常,让下层知道
+                     }
+                }
+            }
+        }, BackpressureStrategy.LATEST)
+        .onErrorResumeNext(new Function&lt;Throwable, Publisher&lt;? extends Integer&gt;&gt;() {
+            @Override
+            public Publisher&lt;? extends Integer&gt; apply(@NonNull Throwable throwable) throws Exception {
+                //在这里犀利捕获
+                if(throwable instanceof NoCacheException){
+                    return 一个网络的Flowable
+                }
+            }
+        });
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

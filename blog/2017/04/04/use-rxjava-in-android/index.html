@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>he is coding</title>
+  <title>使用RxJava - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
@@ -34,7 +34,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -88,15 +88,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/04/04/use-rxjava-in-android/">使用RxJava</a></h1>
+      <h1 class="entry-title">使用RxJava</h1>
     
     
       <p class="meta">
@@ -112,7 +109,7 @@
   </header>
 
 
-  <div class="entry-content"><blockquote><p>所有的东西都像流一样传播,无论是数据还是异常</p></blockquote>
+<div class="entry-content"><blockquote><p>所有的东西都像流一样传播,无论是数据还是异常</p></blockquote>
 
 <h3>Flowable/Observable</h3>
 
@@ -509,77 +506,50 @@
 </span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">T_MAC</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-04-04T15:45:23+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rxjava/'>rxjava</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2017/04/02/android-studio-config/">Android Studio的一些配置</a></h1>
+      <div class="sharing">
+  
+  
+  
+</div>
+
     
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-04-02T16:35:47+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:35 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>关于各种gradle</h3>
-
-<ul>
-<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apply plugin: 'com.android.application' //说明这个module是一个application
-</span><span class='line'>apply plugin: 'com.android.library' //说明这个module是一个library
-</span><span class='line'>
-</span><span class='line'>//声明此module需要哪些依赖
-</span><span class='line'>dependencies { 
-</span><span class='line'>    compile fileTree(dir: 'libs', include: ['*.jar']) // lib目录下所有的jar包
-</span><span class='line'>    compile project(':XXXLib') //依赖当前工程中的XXXLib
-</span><span class='line'>    compile(name: 'XXXLib', ext: 'aar') //依赖lib中的XXXLib.aar文件
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/04/02/android-studio-config/" title="Previous Post: Android Studio的一些配置">&laquo; Android Studio的一些配置</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/02/android-studio-config/">阅读全文 &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -611,6 +581,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
