@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-15T21:20:55+08:00</updated>
+  <updated>2017-04-15T22:23:27+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -48,11 +48,42 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[使用RxJava]]></title>
+    <title type="html"><![CDATA[Use Rxjava in Android]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/"/>
-    <updated>2017-04-04T15:45:23+08:00</updated>
+    <updated>2017-04-04T00:00:00+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android</id>
-    <content type="html"><![CDATA[<blockquote><p>所有的东西都像流一样传播,无论是数据还是异常</p></blockquote>
+    <content type="html"><![CDATA[<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+<p><strong>Table of Contents</strong>  <em>generated with <a href="https://github.com/thlorenz/doctoc">DocToc</a></em></p>
+
+<ul>
+<li><a href="#flowableobservable">Flowable/Observable</a></li>
+<li><a href="#consumerobserver">Consumer/Observer</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAflowable">创建一个Flowable</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAconsumer%E6%88%96%E8%80%85subscriber">创建一个Consumer或者Subscriber</a></li>
+<li><a href="#%E5%BB%BA%E7%AB%8B%E8%81%94%E7%B3%BBsubscribe">建立联系<code>subscribe</code></a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2">线程切换</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C%E7%AC%A6">常用的操作符</a></li>
+</ul>
+
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<hr />
+
+<p>layout: post
+title: &ldquo;RxJava的初级使用&rdquo;
+date: 2017-04-04 15:45:23 +0800
+comments: true</p>
+
+<h2>categories: rxjava</h2>
+
+<blockquote><p>所有的东西都像流一样传播,无论是数据还是异常</p></blockquote>
 
 <!--more-->
 
@@ -455,11 +486,40 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Android Studio的一些配置]]></title>
+    <title type="html"><![CDATA[Android Studio Config]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/04/02/android-studio-config/"/>
-    <updated>2017-04-02T16:35:47+08:00</updated>
+    <updated>2017-04-02T00:00:00+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/04/02/android-studio-config</id>
-    <content type="html"><![CDATA[<h3>关于各种gradle</h3>
+    <content type="html"><![CDATA[<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+<p><strong>Table of Contents</strong>  <em>generated with <a href="https://github.com/thlorenz/doctoc">DocToc</a></em></p>
+
+<ul>
+<li><a href="#%E5%85%B3%E4%BA%8E%E5%90%84%E7%A7%8Dgradle">关于各种gradle</a></li>
+<li><a href="#%E5%8A%A0%E5%A4%A7%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D">加大内存分配</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AEoptional">设置(optional)</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE">常用快捷键</a></li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E6%8F%92%E4%BB%B6">推荐一些插件</a></li>
+</ul>
+
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+<hr />
+
+<p>layout: post
+title: &ldquo;Android Studio的一些配置&rdquo;
+date: 2017-04-02 16:35:47 +0800
+comments: true</p>
+
+<h2>categories: tools</h2>
+
+<h3>关于各种gradle</h3>
 
 <ul>
 <li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项</li>
