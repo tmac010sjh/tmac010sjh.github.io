@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-04-15T22:26:16+08:00</updated>
+  <updated>2017-04-16T13:48:27+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -145,7 +145,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </span><span class='line'>            @Override
 </span><span class='line'>            public void onNext(Integer i) {
 </span><span class='line'>                //接收到流
-</span><span class='line'>                //如果我订阅了上面的justFlowable
+</span><span class='line'>                //如果我订阅了上面的simpleFlowable
 </span><span class='line'>                //这里就依次打印1，2，3
 </span><span class='line'>                Log.d("DEBUG","value is "+ i);
 </span><span class='line'>            }
