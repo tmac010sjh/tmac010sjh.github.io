@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-09T10:04:09+08:00</updated>
+  <updated>2017-05-09T10:13:18+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[RecyclerView的分割线问题]]></title>
-    <link href="http://tmac010sjh.github.io/blog/2017/04/28/rv-divider-issue/"/>
-    <updated>2017-04-28T19:48:45+08:00</updated>
-    <id>http://tmac010sjh.github.io/blog/2017/04/28/rv-divider-issue</id>
-    <content type="html"><![CDATA[<h3>给RecyclerView设置分割线</h3>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用java注解处理器,遇到的一个错误]]></title>
