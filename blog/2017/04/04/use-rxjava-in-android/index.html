@@ -407,8 +407,9 @@
 </span><span class='line'>                    });</span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 <strong>被订阅者/被观察者</strong> 将在io线程执行他的那一坨逻辑（网络请求）
-<code>observeOn(AndroidSchedulers.mainThread())</code>观察在主线程，也就是说
+<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 <strong>被订阅者/被观察者</strong> 将在io线程执行他的那一坨逻辑（网络请求）</p>
+
+<p><code>observeOn(AndroidSchedulers.mainThread())</code>观察在主线程，也就是说
 <strong>订阅者/观察者</strong> 将在主线程执行他的那一坨逻辑（更新ui）</p>
 
 <blockquote><p><a href="http://tomstechnicalblog.blogspot.hk/2016/02/rxjava-understanding-observeon-and.html">线程如何切换</a></p></blockquote>
