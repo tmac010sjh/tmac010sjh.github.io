@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-09T10:27:02+08:00</updated>
+  <updated>2017-05-10T10:18:05+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rxjava-operator-map]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/"/>
+    <updated>2017-05-09T18:55:04+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map</id>
+    <content type="html"><![CDATA[<blockquote><p>map的作用是在 数据/事件 传递的过程中添加一层对 数据/事件 的处理/转换，然后返回一个新的Flowable对象</p></blockquote>
+
+<!--more-->
+
+
+<p>e.g. 将传递过来的int类型转成string类型</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable&lt;Integer&gt; intFlowable = Flowable.just(666);
+</span><span class='line'>
+</span><span class='line'>Flowable&lt;String&gt; stringFlowable = intFlowable.map(new Function&lt;Integer, String&gt;() {
+</span><span class='line'>                @Override
+</span><span class='line'>                public String apply(@NonNull Integer integer) throws Exception {
+</span><span class='line'>                    
+</span><span class='line'>                    return “value is = ”+integer;
+</span><span class='line'>                }
+</span><span class='line'>            });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的map方法接收一个<code>Function</code>对象</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Function&lt;T, R&gt; {
+</span><span class='line'>    R apply(@NonNull T t) throws Exception;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Function</code>需要两个范型参数，</p>
+
+<p><code>T</code>是入参，如果把整个数据传递的过程想象成是水的流动，那这个<code>T</code>就可以理解成是上游传过来的data类型</p>
+
+<p><code>R</code>是我们定义的返回值类型，也就是传给下游的data类型</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用java注解处理器,遇到的一个错误]]></title>

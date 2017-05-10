@@ -5,12 +5,20 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>使用java注解处理器,遇到的一个错误 - he is coding</title>
+  <title>Rxjava-operator-map - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="最近在研究java注解处理器,遇到了这样一个错误 1
-错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor. &hellip;">
+  <meta name="description" content="map的作用是在 数据/事件 传递的过程中添加一层对 数据/事件 的处理/转换，然后返回一个新的Flowable对象 e.g. 将传递过来的int类型转成string类型 1
+2
+3
+4
+5
+6
+7
+8
+9
+Flowable&lt;Integer&gt; intFlowable = &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +27,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -78,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">使用java注解处理器,遇到的一个错误</h1>
+      <h1 class="entry-title">Rxjava-operator-map</h1>
     
     
       <p class="meta">
@@ -87,7 +95,7 @@
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
+<time class='entry-date' datetime='2017-05-09T18:55:04+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>6:55 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
@@ -97,32 +105,48 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>最近在研究java注解处理器,遇到了这样一个错误</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor could not be instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误</span></code></pre></td></tr></table></div></figure>
-
-
-
+<div class="entry-content"><blockquote><p>map的作用是在 数据/事件 传递的过程中添加一层对 数据/事件 的处理/转换，然后返回一个新的Flowable对象</p></blockquote>
 
 <!--more-->
 
 
-<p>按照butterknife的思路，我新建了一个java lib，依赖如下</p>
+<p>e.g. 将传递过来的int类型转成string类型</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>compile 'com.squareup:javapoet:1.8.0’ 用于方便的生成java文件
-</span><span class='line'>compile 'com.google.auto.service:auto-service:1.0-rc2’ 用于方便的注册我的处理器
-</span><span class='line'>compile 'com.google.auto:auto-common:0.6'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable&lt;Integer&gt; intFlowable = Flowable.just(666);
+</span><span class='line'>
+</span><span class='line'>Flowable&lt;String&gt; stringFlowable = intFlowable.map(new Function&lt;Integer, String&gt;() {
+</span><span class='line'>                @Override
+</span><span class='line'>                public String apply(@NonNull Integer integer) throws Exception {
+</span><span class='line'>                    
+</span><span class='line'>                    return “value is = ”+integer;
+</span><span class='line'>                }
+</span><span class='line'>            });</span></code></pre></td></tr></table></div></figure>
 
 
-<p>由于项目的原因，需要将依赖的类库尽量以jar或者aar的形式加入到项目中，但是发现如果将<code>com.google.auto.service:auto-service:1.0-rc2</code>以jar包的形式引入则会报标题所示的错误</p>
+<p>这里的map方法接收一个<code>Function</code>对象</p>
 
-<p>最后分析如下： <br/>
-其中auto-service不能以jar包的形式放到lib中，必须是依赖形式引入，考虑原因：auto－service本身也是一个注解生成器，所以需要在编译之前运行，所以gradle在校验的时候，
-auto－service已经在运行，为我的processor生成meta－info文件。。。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public interface Function&lt;T, R&gt; {
+</span><span class='line'>    R apply(@NonNull T t) throws Exception;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Function</code>需要两个范型参数，</p>
+
+<p><code>T</code>是入参，如果把整个数据传递的过程想象成是水的流动，那这个<code>T</code>就可以理解成是上游传过来的data类型</p>
+
+<p><code>R</code>是我们定义的返回值类型，也就是传给下游的data类型</p>
 </div>
 
 
@@ -138,14 +162,8 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
+<time class='entry-date' datetime='2017-05-09T18:55:04+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>6:55 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/issue/'>issue</a>
-  
-</span>
 
 
     </p>
@@ -159,10 +177,8 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/04/04/use-rxjava-in-android/" title="Previous Post: RxJava的初级使用">&laquo; RxJava的初级使用</a>
+        <a class="basic-alignment left" href="/blog/2017/04/04/issue-java-processor/" title="Previous Post: 使用java注解处理器,遇到的一个错误">&laquo; 使用java注解处理器,遇到的一个错误</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/09/rxjava-operator-map/" title="Next Post: rxjava-operator-map">rxjava-operator-map &raquo;</a>
       
     </p>
   </footer>
@@ -233,8 +249,8 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/';
-        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/';
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/';
         var disqus_script = 'embed.js';
       
     (function () {
