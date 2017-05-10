@@ -9,7 +9,7 @@
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="RxJava 扩展了观察者模式，以支持对数据和事件的一系列操作 基本概念 被观察者/被订阅者 也就是事件源，Rxjava中用接口Publisher来表示 被观察者/被订阅者 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 被观察者/ &hellip;">
+  <meta name="description" content="RxJava 扩展了观察者模式，以支持对数据和事件的一系列操作 基本概念 被观察者/被订阅者 也就是事件源，Rxjava中用接口Publisher来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,16 +105,16 @@
 
 <h4><strong>被观察者/被订阅者</strong></h4>
 
-<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 <strong>被观察者/被订阅者</strong> 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 <strong>被观察者/被订阅者</strong></p></blockquote>
+<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/被订阅者」</p></blockquote>
 
 <h4><strong>观察者/订阅者</strong></h4>
 
-<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 <strong>观察者/订阅者</strong> 这个概念</p></blockquote>
+<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者/订阅者」 这个概念</p></blockquote>
 
 <h4>订阅</h4>
 
 <ul>
-<li>先看一下代表 <strong>被观察者/被订阅者</strong> 的<code>Publisher</code>接口</li>
+<li>先看一下代表 「被观察者/被订阅者」 的<code>Publisher</code>接口</li>
 </ul>
 
 
@@ -133,10 +133,10 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>public interface Publisher&lt;T&gt; {
 </span><span class='line'>
 </span><span class='line'>/** 
-</span><span class='line'>* 请求 被观察者/被订阅者 开始传输数据/发出事件
+</span><span class='line'>* 请求 「被观察者/被订阅者」 开始传输数据/发出事件
 </span><span class='line'>* 
-</span><span class='line'>* 参数接收一个 观察者/订阅者，该 观察者/订阅者 将收到 
-</span><span class='line'>* 被观察者/被订阅者 
+</span><span class='line'>* 参数接收一个 「观察者/订阅者」，该 「观察者/订阅者」 将收到 
+</span><span class='line'>* 「被观察者/被订阅者」 
 </span><span class='line'>* 发射的一系列数据/事件
 </span><span class='line'>*/
 </span><span class='line'>public void subscribe(Subscriber&lt;? super T&gt; s);
@@ -145,7 +145,7 @@
 
 
 <ul>
-<li>再看一下 代表 <strong>观察者/订阅者</strong> 的<code>Subscriber</code>接口</li>
+<li>再看一下 代表 「观察者/订阅者」 的<code>Subscriber</code>接口</li>
 </ul>
 
 
@@ -187,7 +187,7 @@
 </span><span class='line'>    public void onSubscribe(Subscription s);
 </span><span class='line'>
 </span><span class='line'>   /**
-</span><span class='line'>    * 接收到 被观察者/被订阅者 发出的数据/事件
+</span><span class='line'>    * 接收到 「被观察者/被订阅者」 发出的数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onNext(T t);
 </span><span class='line'>
@@ -199,9 +199,9 @@
 </span><span class='line'>
 </span><span class='line'>    /**
 </span><span class='line'>    * 当
-</span><span class='line'>    * 被观察者/被订阅者 发射数据/事件完成
+</span><span class='line'>    * 「被观察者/被订阅者」 发射数据/事件完成
 </span><span class='line'>    * 此方法会被回调
-</span><span class='line'>    * 此后 被观察者/被订阅者 不会再发出任何数据/事件
+</span><span class='line'>    * 此后 「被观察者/被订阅者」 不会再发出任何数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onComplete();
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
@@ -224,7 +224,7 @@
 </ul>
 
 
-<p>e.g. 创建一个 <strong>被观察者/被订阅者</strong> ,他在被订阅后会发射一个数字<code>666</code></p>
+<p>e.g. 创建一个 「被观察者/被订阅者」 ,他在被订阅后会发射一个数字<code>666</code></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -245,7 +245,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 <strong>观察者/订阅者</strong> 对象，看上去好像是 <strong>被观察者/被订阅者</strong> 直接持有了 <strong>观察者/订阅者</strong> ，然后调用他的各种方法。。。
+<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者/订阅者」 对象，看上去好像是 「被观察者/被订阅者」 直接持有了 「观察者/订阅者」 ，然后调用他的各种方法。。。
 (这里的细节后面再写。。。)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -307,7 +307,7 @@
 
 
 <ul>
-<li>很多时候我们创建 <strong>观察者/订阅者</strong> 时并不需要重写这么多的方法
+<li>很多时候我们创建 「观察者/订阅者」 时并不需要重写这么多的方法
 
 <ul>
 <li>比如说每次都要调用<code>s.request(Long.MAX_VALUE)</code></li>
@@ -327,10 +327,10 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>public final Disposable subscribe(
-</span><span class='line'>Consumer&lt;? super T&gt; onNext,
-</span><span class='line'>Consumer&lt;? super Throwable&gt; onError,
-</span><span class='line'>Action onComplete,
-</span><span class='line'>Consumer&lt;? super Subscription&gt; onSubscribe)
+</span><span class='line'>    Consumer&lt;? super T&gt; onNext,
+</span><span class='line'>    Consumer&lt;? super Throwable&gt; onError,
+</span><span class='line'>    Action onComplete,
+</span><span class='line'>    Consumer&lt;? super Subscription&gt; onSubscribe)
 </span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
 
 
@@ -367,7 +367,7 @@
 
 <h3>RxJava中的线程切换</h3>
 
-<blockquote><p>RxJava在Android中常见的使用场景就是拿来异步更新UI，比如说 <strong>被观察者/被订阅者</strong> 从本地或者网络取数据，然后传给 <strong>观察者/订阅者</strong> 更新UI，但是这个取数据的过程可能是很耗时的，所以通常会让 <strong>被观察者/被订阅者</strong> 在子线程去处理他的逻辑，等数据ok后，<strong>观察者/订阅者</strong>在ui线程去更新ui</p></blockquote>
+<blockquote><p>RxJava在Android中常见的使用场景就是拿来异步更新UI，比如说 「被观察者/被订阅者」 从本地或者网络取数据，然后传给 「观察者/订阅者」 更新UI，但是这个取数据的过程可能是很耗时的，所以通常会让 「被观察者/被订阅者」 在子线程去处理他的逻辑，等数据ok后，「观察者/订阅者」在ui线程去更新ui</p></blockquote>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -407,10 +407,10 @@
 </span><span class='line'>                    });</span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 <strong>被订阅者/被观察者</strong> 将在io线程执行他的那一坨逻辑（网络请求）</p>
+<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 「被订阅者/被观察者」 将在io线程执行他的那一坨逻辑（网络请求）</p>
 
 <p><code>observeOn(AndroidSchedulers.mainThread())</code>观察在主线程，也就是说
-<strong>订阅者/观察者</strong> 将在主线程执行他的那一坨逻辑（更新ui）</p>
+「订阅者/观察者」将在主线程执行他的那一坨逻辑（更新ui）</p>
 
 <blockquote><p><a href="http://tomstechnicalblog.blogspot.hk/2016/02/rxjava-understanding-observeon-and.html">线程如何切换</a></p></blockquote>
 </div>
@@ -472,7 +472,7 @@
 <h1>文章分类</h1>
 <ul id="categories">
 <li class='category'><a href='/blog/categories/issue/'>issue (1)</a></li>
-<li class='category'><a href='/blog/categories/rxjava/'>rxjava (2)</a></li>
+<li class='category'><a href='/blog/categories/rxjava/'>rxjava (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
 
 </ul>
@@ -480,6 +480,10 @@
 <section>
   <h1>最新文章</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/05/10/rxjava-operator-compose/">RxJava之compose操作符</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/05/09/rxjava-operator-map/">RxJava之map操作符</a>

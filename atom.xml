@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-10T10:45:40+08:00</updated>
+  <updated>2017-05-10T14:50:31+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -14,11 +14,150 @@
 
   
   <entry>
+    <title type="html"><![CDATA[RxJava之compose操作符]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/"/>
+    <updated>2017-05-10T14:46:29+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose</id>
+    <content type="html"><![CDATA[<blockquote><p>这个操作符的作用是对<code>Publisher</code>也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象</p></blockquote>
+
+<p>主要使用场景就是代码的复用</p>
+
+<p>e.g.Android中经常需要的线程切换</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.just(666) //假装他是网络请求
+</span><span class='line'>        .subscribeOn(Schedulers.io())
+</span><span class='line'>        .observeOn(AndroidSchedulers.mainThread())
+</span><span class='line'>        .subscribe(new Consumer&lt;Integer&gt;(){
+</span><span class='line'>            @overide
+</span><span class='line'>            public void accept(@NonNull Integer i) throw Exception{
+</span><span class='line'>                //update ui
+</span><span class='line'>            }
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.subscribeOn(Schedulers.io())
+</span><span class='line'>.observeOn(AndroidSchedulers.mainThread())</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以用compose加工一下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flawable&lt;Integer&gt; integerFlowable = Flowable.just(666);
+</span><span class='line'>Flowable&lt;Integer&gt; composedFlowable = integerFlowable
+</span><span class='line'>        .compose(new FlowableTransformer&lt;Integer, Integer&gt;() {
+</span><span class='line'>                    @Override
+</span><span class='line'>                    public Publisher&lt;Integer&gt; apply(Flowable&lt;Integer&gt; upstream) {
+</span><span class='line'>                    
+</span><span class='line'>                 Flowable&lt;Integer&gt; transformedIntegerFlowable = upstream
+</span><span class='line'>                               .subscribeOn(Schedulers.io())
+</span><span class='line'>                               .observeOn(AndroidSchedulers.mainThread())
+</span><span class='line'>                    
+</span><span class='line'>                        return transformedIntegerFlowable;
+</span><span class='line'>                    }
+</span><span class='line'>                });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>compose方法接收一个<code>FlowableTransformer</code>对象</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public interface FlowableTransformer&lt;Upstream, Downstream&gt; {
+</span><span class='line'>    
+</span><span class='line'>    @NonNull
+</span><span class='line'>    Publisher&lt;Downstream&gt; apply(@NonNull Flowable&lt;Upstream&gt; upstream);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的<code>upstream</code> 代表的是上游的Flowable对象，<strong>暂时</strong> 可以直接理解成是<code>integerFlowable</code>，事实上传过来的是被包装后的integerFlowable对象</p>
+
+<p>这里的需要一个返回值<code>Publisher&lt;Downstream&gt;</code>，给下游继续操作，我们直接返回transformedIntegerFlowable，返回的这个transformedIntegerFlowable <strong>暂时</strong> 可以理解成就是composedFlowable</p>
+
+<p>通常我们会定义一个方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class RxUtil {
+</span><span class='line'>
+</span><span class='line'> public static &lt;T&gt; FlowableTransformer&lt;T, T&gt; scheduler() {
+</span><span class='line'>        return new FlowableTransformer&lt;T, T&gt;() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public Publisher&lt;T&gt; apply(Flowable&lt;T&gt; upstream) {
+</span><span class='line'>                return upstream
+</span><span class='line'>                        .subscribeOn(Schedulers.io())
+</span><span class='line'>                        .observeOn(AndroidSchedulers.mainThread());
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.just(666)
+</span><span class='line'>        .compose(RxUtil.&lt;Integer&gt;scheduler())
+</span><span class='line'>        .subscribe(new Consumer&lt;Integer&gt;(){
+</span><span class='line'>            @overide
+</span><span class='line'>            public void accept(@NonNull Integer i) throw Exception{
+</span><span class='line'>                //
+</span><span class='line'>            }
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[RxJava之map操作符]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/"/>
     <updated>2017-05-09T18:55:04+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map</id>
-    <content type="html"><![CDATA[<blockquote><p>map的作用是在 数据/事件 传递的过程中添加一层对 数据/事件 的处理/转换，然后返回一个新的Flowable对象</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>map的作用是在 「数据/事件」 传递的过程中添加一层对 「数据/事件」 的处理/转换，然后返回一个新的Flowable对象</p></blockquote>
 
 <!--more-->
 
@@ -111,16 +250,16 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 <h4><strong>被观察者/被订阅者</strong></h4>
 
-<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 <strong>被观察者/被订阅者</strong> 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 <strong>被观察者/被订阅者</strong></p></blockquote>
+<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/被订阅者」</p></blockquote>
 
 <h4><strong>观察者/订阅者</strong></h4>
 
-<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 <strong>观察者/订阅者</strong> 这个概念</p></blockquote>
+<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者/订阅者」 这个概念</p></blockquote>
 
 <h4>订阅</h4>
 
 <ul>
-<li>先看一下代表 <strong>被观察者/被订阅者</strong> 的<code>Publisher</code>接口</li>
+<li>先看一下代表 「被观察者/被订阅者」 的<code>Publisher</code>接口</li>
 </ul>
 
 
@@ -139,10 +278,10 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </pre></td><td class='code'><pre><code class=''><span class='line'>public interface Publisher&lt;T&gt; {
 </span><span class='line'>
 </span><span class='line'>/** 
-</span><span class='line'>* 请求 被观察者/被订阅者 开始传输数据/发出事件
+</span><span class='line'>* 请求 「被观察者/被订阅者」 开始传输数据/发出事件
 </span><span class='line'>* 
-</span><span class='line'>* 参数接收一个 观察者/订阅者，该 观察者/订阅者 将收到 
-</span><span class='line'>* 被观察者/被订阅者 
+</span><span class='line'>* 参数接收一个 「观察者/订阅者」，该 「观察者/订阅者」 将收到 
+</span><span class='line'>* 「被观察者/被订阅者」 
 </span><span class='line'>* 发射的一系列数据/事件
 </span><span class='line'>*/
 </span><span class='line'>public void subscribe(Subscriber&lt;? super T&gt; s);
@@ -151,7 +290,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 
 <ul>
-<li>再看一下 代表 <strong>观察者/订阅者</strong> 的<code>Subscriber</code>接口</li>
+<li>再看一下 代表 「观察者/订阅者」 的<code>Subscriber</code>接口</li>
 </ul>
 
 
@@ -193,7 +332,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </span><span class='line'>    public void onSubscribe(Subscription s);
 </span><span class='line'>
 </span><span class='line'>   /**
-</span><span class='line'>    * 接收到 被观察者/被订阅者 发出的数据/事件
+</span><span class='line'>    * 接收到 「被观察者/被订阅者」 发出的数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onNext(T t);
 </span><span class='line'>
@@ -205,9 +344,9 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </span><span class='line'>
 </span><span class='line'>    /**
 </span><span class='line'>    * 当
-</span><span class='line'>    * 被观察者/被订阅者 发射数据/事件完成
+</span><span class='line'>    * 「被观察者/被订阅者」 发射数据/事件完成
 </span><span class='line'>    * 此方法会被回调
-</span><span class='line'>    * 此后 被观察者/被订阅者 不会再发出任何数据/事件
+</span><span class='line'>    * 此后 「被观察者/被订阅者」 不会再发出任何数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onComplete();
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
@@ -230,7 +369,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </ul>
 
 
-<p>e.g. 创建一个 <strong>被观察者/被订阅者</strong> ,他在被订阅后会发射一个数字<code>666</code></p>
+<p>e.g. 创建一个 「被观察者/被订阅者」 ,他在被订阅后会发射一个数字<code>666</code></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -251,7 +390,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 <strong>观察者/订阅者</strong> 对象，看上去好像是 <strong>被观察者/被订阅者</strong> 直接持有了 <strong>观察者/订阅者</strong> ，然后调用他的各种方法。。。
+<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者/订阅者」 对象，看上去好像是 「被观察者/被订阅者」 直接持有了 「观察者/订阅者」 ，然后调用他的各种方法。。。
 (这里的细节后面再写。。。)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -313,7 +452,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 
 <ul>
-<li>很多时候我们创建 <strong>观察者/订阅者</strong> 时并不需要重写这么多的方法
+<li>很多时候我们创建 「观察者/订阅者」 时并不需要重写这么多的方法
 
 <ul>
 <li>比如说每次都要调用<code>s.request(Long.MAX_VALUE)</code></li>
@@ -333,10 +472,10 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>public final Disposable subscribe(
-</span><span class='line'>Consumer&lt;? super T&gt; onNext,
-</span><span class='line'>Consumer&lt;? super Throwable&gt; onError,
-</span><span class='line'>Action onComplete,
-</span><span class='line'>Consumer&lt;? super Subscription&gt; onSubscribe)
+</span><span class='line'>    Consumer&lt;? super T&gt; onNext,
+</span><span class='line'>    Consumer&lt;? super Throwable&gt; onError,
+</span><span class='line'>    Action onComplete,
+</span><span class='line'>    Consumer&lt;? super Subscription&gt; onSubscribe)
 </span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
 
 
@@ -373,7 +512,7 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 <h3>RxJava中的线程切换</h3>
 
-<blockquote><p>RxJava在Android中常见的使用场景就是拿来异步更新UI，比如说 <strong>被观察者/被订阅者</strong> 从本地或者网络取数据，然后传给 <strong>观察者/订阅者</strong> 更新UI，但是这个取数据的过程可能是很耗时的，所以通常会让 <strong>被观察者/被订阅者</strong> 在子线程去处理他的逻辑，等数据ok后，<strong>观察者/订阅者</strong>在ui线程去更新ui</p></blockquote>
+<blockquote><p>RxJava在Android中常见的使用场景就是拿来异步更新UI，比如说 「被观察者/被订阅者」 从本地或者网络取数据，然后传给 「观察者/订阅者」 更新UI，但是这个取数据的过程可能是很耗时的，所以通常会让 「被观察者/被订阅者」 在子线程去处理他的逻辑，等数据ok后，「观察者/订阅者」在ui线程去更新ui</p></blockquote>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -413,10 +552,10 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 </span><span class='line'>                    });</span></code></pre></td></tr></table></div></figure>
 
 
-<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 <strong>被订阅者/被观察者</strong> 将在io线程执行他的那一坨逻辑（网络请求）</p>
+<p><code>subscribeOn(Schedulers.io())</code> 订阅在io线程，也就是说 「被订阅者/被观察者」 将在io线程执行他的那一坨逻辑（网络请求）</p>
 
 <p><code>observeOn(AndroidSchedulers.mainThread())</code>观察在主线程，也就是说
-<strong>订阅者/观察者</strong> 将在主线程执行他的那一坨逻辑（更新ui）</p>
+「订阅者/观察者」将在主线程执行他的那一坨逻辑（更新ui）</p>
 
 <blockquote><p><a href="http://tomstechnicalblog.blogspot.hk/2016/02/rxjava-understanding-observeon-and.html">线程如何切换</a></p></blockquote>
 ]]></content>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>he is coding</title>
+  <title>RxJava之compose操作符 - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
@@ -27,7 +27,7 @@ Flowable.just &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -81,15 +81,12 @@ Flowable.just &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2017/05/10/rxjava-operator-compose/">RxJava之compose操作符</a></h1>
+      <h1 class="entry-title">RxJava之compose操作符</h1>
     
     
       <p class="meta">
@@ -100,15 +97,15 @@ Flowable.just &hellip;">
 
 <time class='entry-date' datetime='2017-05-10T14:46:29+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:46 pm</span></time>
         
-           | <a href="/blog/2017/05/10/rxjava-operator-compose/#disqus_thread"
-             data-disqus-identifier="http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><blockquote><p>这个操作符的作用是对<code>Publisher</code>也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象</p></blockquote>
+<div class="entry-content"><blockquote><p>这个操作符的作用是对<code>Publisher</code>也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象</p></blockquote>
 
 <p>主要使用场景就是代码的复用</p>
 
@@ -240,197 +237,56 @@ Flowable.just &hellip;">
 </span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/05/09/rxjava-operator-map/">RxJava之map操作符</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-05-09T18:55:04+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>6:55 pm</span></time>
-        
-           | <a href="/blog/2017/05/09/rxjava-operator-map/#disqus_thread"
-             data-disqus-identifier="http://tmac010sjh.github.io/blog/2017/05/09/rxjava-operator-map/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>map的作用是在 「数据/事件」 传递的过程中添加一层对 「数据/事件」 的处理/转换，然后返回一个新的Flowable对象</p></blockquote>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/05/09/rxjava-operator-map/">阅读全文 &rarr;</a>
-    </footer>
   
 
+<span class="byline author vcard">Posted by <span class="fn">T_MAC</span></span>
 
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/04/04/issue-java-processor/">使用java注解处理器,遇到的一个错误</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
-        
-           | <a href="/blog/2017/04/04/issue-java-processor/#disqus_thread"
-             data-disqus-identifier="http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>最近在研究java注解处理器,遇到了这样一个错误</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor could not be instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/04/issue-java-processor/">阅读全文 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time class='entry-date' datetime='2017-05-10T14:46:29+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:46 pm</span></time>
       
-  <header>
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rxjava/'>rxjava</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2017/04/04/use-rxjava-in-android/">RxJava的初级使用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2017-04-04T15:45:23+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:45 pm</span></time>
-        
-           | <a href="/blog/2017/04/04/use-rxjava-in-android/#disqus_thread"
-             data-disqus-identifier="http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>RxJava 扩展了观察者模式，以支持对数据和事件的一系列操作</p></blockquote>
-
+      <div class="sharing">
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/04/use-rxjava-in-android/">阅读全文 &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/04/02/android-studio-config/">Android Studio的一些配置</a></h1>
-    
-    
-      <p class="meta">
-        
+        <a class="basic-alignment left" href="/blog/2017/05/09/rxjava-operator-map/" title="Previous Post: RxJava之map操作符">&laquo; RxJava之map操作符</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-<time class='entry-date' datetime='2017-04-02T16:35:47+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>4:35 pm</span></time>
-        
-           | <a href="/blog/2017/04/02/android-studio-config/#disqus_thread"
-             data-disqus-identifier="http://tmac010sjh.github.io/blog/2017/04/02/android-studio-config/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>关于各种gradle</h3>
-
-<ul>
-<li>一个project由多个module组成，每个module的根目录都会有一个build.gradle文件来描述这个module的配置项</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apply plugin: 'com.android.application' //说明这个module是一个application
-</span><span class='line'>apply plugin: 'com.android.library' //说明这个module是一个library
-</span><span class='line'>
-</span><span class='line'>//声明此module需要哪些依赖
-</span><span class='line'>dependencies { 
-</span><span class='line'>    compile fileTree(dir: 'libs', include: ['*.jar']) // lib目录下所有的jar包
-</span><span class='line'>    compile project(':XXXLib') //依赖当前工程中的XXXLib
-</span><span class='line'>    compile(name: 'XXXLib', ext: 'aar') //依赖lib中的XXXLib.aar文件
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2017/04/02/android-studio-config/">阅读全文 &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -476,6 +332,7 @@ Flowable.just &hellip;">
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -490,7 +347,10 @@ Flowable.just &hellip;">
       var disqus_shortname = 'heiscoding';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
