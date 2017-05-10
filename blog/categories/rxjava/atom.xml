@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rxjava | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-10T14:50:31+08:00</updated>
+  <updated>2017-05-10T14:52:47+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -19,6 +19,9 @@
     <updated>2017-05-10T14:46:29+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose</id>
     <content type="html"><![CDATA[<blockquote><p>这个操作符的作用是对<code>Publisher</code>也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象</p></blockquote>
+
+<!--more-->
+
 
 <p>主要使用场景就是代码的复用</p>
 

@@ -9,16 +9,7 @@
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="这个操作符的作用是对Publisher也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象 主要使用场景就是代码的复用 e.g.Android中经常需要的线程切换 1
-2
-3
-4
-5
-6
-7
-8
-9
-Flowable.just &hellip;">
+  <meta name="description" content="这个操作符的作用是对Publisher也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,137 +101,12 @@ Flowable.just &hellip;">
 
   <div class="entry-content"><blockquote><p>这个操作符的作用是对<code>Publisher</code>也就是对 「被观察者/被订阅者」 对象进行操作（区别于之前讲的map是对数据进行操作），然后返回一个新的Flowable对象</p></blockquote>
 
-<p>主要使用场景就是代码的复用</p>
-
-<p>e.g.Android中经常需要的线程切换</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.just(666) //假装他是网络请求
-</span><span class='line'>        .subscribeOn(Schedulers.io())
-</span><span class='line'>        .observeOn(AndroidSchedulers.mainThread())
-</span><span class='line'>        .subscribe(new Consumer&lt;Integer&gt;(){
-</span><span class='line'>            @overide
-</span><span class='line'>            public void accept(@NonNull Integer i) throw Exception{
-</span><span class='line'>                //update ui
-</span><span class='line'>            }
-</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.subscribeOn(Schedulers.io())
-</span><span class='line'>.observeOn(AndroidSchedulers.mainThread())</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以用compose加工一下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Flawable&lt;Integer&gt; integerFlowable = Flowable.just(666);
-</span><span class='line'>Flowable&lt;Integer&gt; composedFlowable = integerFlowable
-</span><span class='line'>        .compose(new FlowableTransformer&lt;Integer, Integer&gt;() {
-</span><span class='line'>                    @Override
-</span><span class='line'>                    public Publisher&lt;Integer&gt; apply(Flowable&lt;Integer&gt; upstream) {
-</span><span class='line'>                    
-</span><span class='line'>                 Flowable&lt;Integer&gt; transformedIntegerFlowable = upstream
-</span><span class='line'>                               .subscribeOn(Schedulers.io())
-</span><span class='line'>                               .observeOn(AndroidSchedulers.mainThread())
-</span><span class='line'>                    
-</span><span class='line'>                        return transformedIntegerFlowable;
-</span><span class='line'>                    }
-</span><span class='line'>                });</span></code></pre></td></tr></table></div></figure>
-
-
-<p>compose方法接收一个<code>FlowableTransformer</code>对象</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public interface FlowableTransformer&lt;Upstream, Downstream&gt; {
-</span><span class='line'>    
-</span><span class='line'>    @NonNull
-</span><span class='line'>    Publisher&lt;Downstream&gt; apply(@NonNull Flowable&lt;Upstream&gt; upstream);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里的<code>upstream</code> 代表的是上游的Flowable对象，<strong>暂时</strong> 可以直接理解成是<code>integerFlowable</code>，事实上传过来的是被包装后的integerFlowable对象</p>
-
-<p>这里的需要一个返回值<code>Publisher&lt;Downstream&gt;</code>，给下游继续操作，我们直接返回transformedIntegerFlowable，返回的这个transformedIntegerFlowable <strong>暂时</strong> 可以理解成就是composedFlowable</p>
-
-<p>通常我们会定义一个方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class RxUtil {
-</span><span class='line'>
-</span><span class='line'> public static &lt;T&gt; FlowableTransformer&lt;T, T&gt; scheduler() {
-</span><span class='line'>        return new FlowableTransformer&lt;T, T&gt;() {
-</span><span class='line'>            @Override
-</span><span class='line'>            public Publisher&lt;T&gt; apply(Flowable&lt;T&gt; upstream) {
-</span><span class='line'>                return upstream
-</span><span class='line'>                        .subscribeOn(Schedulers.io())
-</span><span class='line'>                        .observeOn(AndroidSchedulers.mainThread());
-</span><span class='line'>            }
-</span><span class='line'>        };
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.just(666)
-</span><span class='line'>        .compose(RxUtil.&lt;Integer&gt;scheduler())
-</span><span class='line'>        .subscribe(new Consumer&lt;Integer&gt;(){
-</span><span class='line'>            @overide
-</span><span class='line'>            public void accept(@NonNull Integer i) throw Exception{
-</span><span class='line'>                //
-</span><span class='line'>            }
-</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/10/rxjava-operator-compose/">阅读全文 &rarr;</a>
+    </footer>
   
 
 
