@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-22T09:31:06+08:00</updated>
+  <updated>2017-05-22T09:32:34+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -110,7 +110,7 @@ onNext = 14
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Rxjava-operator-doonnext]]></title>
+    <title type="html"><![CDATA[Rxjava之doOnNext操作符]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/"/>
     <updated>2017-05-22T09:23:44+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext</id>
