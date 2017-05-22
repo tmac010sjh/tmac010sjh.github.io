@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Tools - he is coding</title>
+  <title>Rxjava-operator-doonnext - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="Category: tools">
+  <meta name="description" content="doOnNext 作用是 在「被订阅者」发射出一个事件/数据后，在下游第一时间获取发出的事件/数据 e.g. Flowable&lt;Integer&gt; intFlowable = Flowable.create((FlowableOnSubscribe&lt;Integer&gt;) e &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/blog/categories/tools/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -73,36 +73,116 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tools</h1>
+    
+      <h1 class="entry-title">Rxjava-operator-doonnext</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-22T09:23:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:23 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><blockquote><p> doOnNext 作用是 在「被订阅者」发射出一个事件/数据后，在下游第一时间获取发出的事件/数据</p></blockquote>
 
-  
-  <h2>2017</h2>
-
-<article>
-  
-<h1><a href="/blog/2017/04/02/android-studio-config/">Android Studio的一些配置</a></h1>
-<time datetime="2017-04-02T16:35:47+08:00" pubdate><span class='month'>Apr</span> <span class='day'>02</span> <span class='year'>2017</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<p>e.g.</p>
 
+<pre><code>Flowable&lt;Integer&gt; intFlowable = Flowable.create((FlowableOnSubscribe&lt;Integer&gt;) e -&gt; {
+            e.onNext(666);//发射一个“666”
+            e.onComplete();
+        }, BackpressureStrategy.LATEST)
+
+intFlowable
+            .doOnNext(integer -&gt; 
+            {
+                //上面的“e.onNext(666);”执行后，立刻回调这个方法
+                log("on next value = " + integer);
+            })
+            .doAfterNext(integer -&gt; 
+
+                log("after next value = " + integer)
+            )
+            .subscribe(integer -&gt; {
+                log("subscriber value = " + integer);
+            });
+</code></pre>
+
+<p>这里最后打出来的log顺序是</p>
+
+<pre><code>on next value = 666
+subscriber value = 666
+after next value = 666
+</code></pre>
+
+<p>说明在最下游的订阅者接收到这个666之前，doOnNext已经先收到了</p>
+
+<p>上面还有一个doAfterNext操作符，在订阅者接收到这个666之后，他才收到这个值。。。</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">T_MAC</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-05-22T09:23:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:23 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rxjava/'>rxjava</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/05/10/rxjava-operator-compose/" title="Previous Post: RxJava之compose操作符">&laquo; RxJava之compose操作符</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/05/22/rxjava-operator-concatarray/" title="Next Post: RxJava之concatArray操作符">RxJava之concatArray操作符 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -166,7 +246,10 @@
       var disqus_shortname = 'heiscoding';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

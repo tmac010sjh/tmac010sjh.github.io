@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray/</loc>
+<lastmod>2017-05-22T09:24:09+08:00</lastmod>
+</url>
+<url>
+<loc>http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/</loc>
+<lastmod>2017-05-22T09:23:44+08:00</lastmod>
+</url>
+<url>
 <loc>http://tmac010sjh.github.io/blog/2017/05/10/rxjava-operator-compose/</loc>
 <lastmod>2017-05-10T14:46:29+08:00</lastmod>
 </url>

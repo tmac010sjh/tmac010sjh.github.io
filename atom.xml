@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-10T14:52:47+08:00</updated>
+  <updated>2017-05-22T09:31:06+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,147 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RxJava之concatArray操作符]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray/"/>
+    <updated>2017-05-22T09:24:09+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray</id>
+    <content type="html"><![CDATA[<blockquote><p>concatArray的作用是连接多个「被订阅者」对象，并让他们挨个儿发射数据</p></blockquote>
+
+<!-- more -->
+
+
+<p>e.g.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable&lt;Integer&gt; just1 = Flowable.create(e -&gt; {
+</span><span class='line'>            
+</span><span class='line'>            for (int i = 0; i &lt; 5; i++) {
+</span><span class='line'>                e.onNext(i);
+</span><span class='line'>            }
+</span><span class='line'>            e.onComplete();
+</span><span class='line'>            
+</span><span class='line'>        }, BackpressureStrategy.LATEST);
+</span><span class='line'>
+</span><span class='line'>Flowable&lt;Integer&gt; just2 = Flowable.create(e -&gt; {
+</span><span class='line'>
+</span><span class='line'>            for (int i = 10; i &lt; 15; i++) {
+</span><span class='line'>                e.onNext(i);
+</span><span class='line'>            }
+</span><span class='line'>            e.onComplete();
+</span><span class='line'>
+</span><span class='line'>        }, BackpressureStrategy.LATEST);
+</span><span class='line'>
+</span><span class='line'>Flowable.concatArray(just1, just2)
+</span><span class='line'>         .subscribe(integer -&gt; 
+</span><span class='line'>            log("onNext = " + integer)
+</span><span class='line'>         );
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>log打印如下</p>
+
+<pre><code>onNext = 0
+onNext = 1
+onNext = 2
+onNext = 3
+onNext = 4
+onNext = 10
+onNext = 11
+onNext = 12
+onNext = 13
+onNext = 14
+</code></pre>
+
+<p>说明在等待just1发射完数据后，just2才开始发射数据，它们是有序的</p>
+
+<h3>使用场景</h3>
+
+<ul>
+<li>通常在项目中，进入一个页面时，为了页面的尽快展示，会先取本地缓存更新ui，然后拉接口</li>
+</ul>
+
+
+<p>这段逻辑可以用RxJava这样表达</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.concatArray(本地缓存, 接口)
+</span><span class='line'>         .subscribe(data -&gt; 
+</span><span class='line'>            //更新ui
+</span><span class='line'>         );</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rxjava-operator-doonnext]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext/"/>
+    <updated>2017-05-22T09:23:44+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-doonnext</id>
+    <content type="html"><![CDATA[<blockquote><p> doOnNext 作用是 在「被订阅者」发射出一个事件/数据后，在下游第一时间获取发出的事件/数据</p></blockquote>
+
+<!-- more -->
+
+
+<p>e.g.</p>
+
+<pre><code>Flowable&lt;Integer&gt; intFlowable = Flowable.create((FlowableOnSubscribe&lt;Integer&gt;) e -&gt; {
+            e.onNext(666);//发射一个“666”
+            e.onComplete();
+        }, BackpressureStrategy.LATEST)
+
+intFlowable
+            .doOnNext(integer -&gt; 
+            {
+                //上面的“e.onNext(666);”执行后，立刻回调这个方法
+                log("on next value = " + integer);
+            })
+            .doAfterNext(integer -&gt; 
+
+                log("after next value = " + integer)
+            )
+            .subscribe(integer -&gt; {
+                log("subscriber value = " + integer);
+            });
+</code></pre>
+
+<p>这里最后打出来的log顺序是</p>
+
+<pre><code>on next value = 666
+subscriber value = 666
+after next value = 666
+</code></pre>
+
+<p>说明在最下游的订阅者接收到这个666之前，doOnNext已经先收到了</p>
+
+<p>上面还有一个doAfterNext操作符，在订阅者接收到这个666之后，他才收到这个值。。。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RxJava之compose操作符]]></title>

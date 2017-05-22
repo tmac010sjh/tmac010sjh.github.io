@@ -5,12 +5,33 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>使用java注解处理器,遇到的一个错误 - he is coding</title>
+  <title>RxJava之concatArray操作符 - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="最近在研究java注解处理器,遇到了这样一个错误 1
-错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor. &hellip;">
+  <meta name="description" content="concatArray的作用是连接多个「被订阅者」对象，并让他们挨个儿发射数据 e.g. 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+Flowable&lt;Integer&gt; just1 = Flowable.create &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +40,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -78,7 +99,7 @@
   
   <header>
     
-      <h1 class="entry-title">使用java注解处理器,遇到的一个错误</h1>
+      <h1 class="entry-title">RxJava之concatArray操作符</h1>
     
     
       <p class="meta">
@@ -87,7 +108,7 @@
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
+<time class='entry-date' datetime='2017-05-22T09:24:09+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:24 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
@@ -97,32 +118,94 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>最近在研究java注解处理器,遇到了这样一个错误</p></blockquote>
+<div class="entry-content"><blockquote><p>concatArray的作用是连接多个「被订阅者」对象，并让他们挨个儿发射数据</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>错误: 服务配置文件不正确, 或构造处理程序对象javax.annotation.processing.Processor: Provider com.google.auto.service.processor.AutoServiceProcessor could not be instantiated: java.lang.NoClassDefFoundError: com/google/common/collect/Multimap时抛出异常错误</span></code></pre></td></tr></table></div></figure>
-
+<!-- more -->
 
 
-
-<!--more-->
-
-
-<p>按照butterknife的思路，我新建了一个java lib，依赖如下</p>
+<p>e.g.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>compile 'com.squareup:javapoet:1.8.0’ 用于方便的生成java文件
-</span><span class='line'>compile 'com.google.auto.service:auto-service:1.0-rc2’ 用于方便的注册我的处理器
-</span><span class='line'>compile 'com.google.auto:auto-common:0.6'</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable&lt;Integer&gt; just1 = Flowable.create(e -&gt; {
+</span><span class='line'>            
+</span><span class='line'>            for (int i = 0; i &lt; 5; i++) {
+</span><span class='line'>                e.onNext(i);
+</span><span class='line'>            }
+</span><span class='line'>            e.onComplete();
+</span><span class='line'>            
+</span><span class='line'>        }, BackpressureStrategy.LATEST);
+</span><span class='line'>
+</span><span class='line'>Flowable&lt;Integer&gt; just2 = Flowable.create(e -&gt; {
+</span><span class='line'>
+</span><span class='line'>            for (int i = 10; i &lt; 15; i++) {
+</span><span class='line'>                e.onNext(i);
+</span><span class='line'>            }
+</span><span class='line'>            e.onComplete();
+</span><span class='line'>
+</span><span class='line'>        }, BackpressureStrategy.LATEST);
+</span><span class='line'>
+</span><span class='line'>Flowable.concatArray(just1, just2)
+</span><span class='line'>         .subscribe(integer -&gt; 
+</span><span class='line'>            log("onNext = " + integer)
+</span><span class='line'>         );
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>由于项目的原因，需要将依赖的类库尽量以jar或者aar的形式加入到项目中，但是发现如果将<code>com.google.auto.service:auto-service:1.0-rc2</code>以jar包的形式引入则会报标题所示的错误</p>
+<p>log打印如下</p>
 
-<p>最后分析如下： <br/>
-其中auto-service不能以jar包的形式放到lib中，必须是依赖形式引入，考虑原因：auto－service本身也是一个注解生成器，所以需要在编译之前运行，所以gradle在校验的时候，
-auto－service已经在运行，为我的processor生成meta－info文件。。。</p>
+<pre><code>onNext = 0
+onNext = 1
+onNext = 2
+onNext = 3
+onNext = 4
+onNext = 10
+onNext = 11
+onNext = 12
+onNext = 13
+onNext = 14
+</code></pre>
+
+<p>说明在等待just1发射完数据后，just2才开始发射数据，它们是有序的</p>
+
+<h3>使用场景</h3>
+
+<ul>
+<li>通常在项目中，进入一个页面时，为了页面的尽快展示，会先取本地缓存更新ui，然后拉接口</li>
+</ul>
+
+
+<p>这段逻辑可以用RxJava这样表达</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Flowable.concatArray(本地缓存, 接口)
+</span><span class='line'>         .subscribe(data -&gt; 
+</span><span class='line'>            //更新ui
+</span><span class='line'>         );</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -138,12 +221,12 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
 
 
 
-<time class='entry-date' datetime='2017-04-04T16:10:34+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>4:10 pm</span></time>
+<time class='entry-date' datetime='2017-05-22T09:24:09+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2017</span></span> <span class='time'>9:24 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/issue/'>issue</a>
+    <a class='category' href='/blog/categories/rxjava/'>rxjava</a>
   
 </span>
 
@@ -159,10 +242,8 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/04/04/use-rxjava-in-android/" title="Previous Post: RxJava的初级使用">&laquo; RxJava的初级使用</a>
+        <a class="basic-alignment left" href="/blog/2017/05/22/rxjava-operator-doonnext/" title="Previous Post: rxjava-operator-doonnext">&laquo; rxjava-operator-doonnext</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2017/05/09/rxjava-operator-map/" title="Next Post: RxJava之map操作符">RxJava之map操作符 &raquo;</a>
       
     </p>
   </footer>
@@ -237,8 +318,8 @@ auto－service已经在运行，为我的processor生成meta－info文件。。�
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/';
-        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/04/04/issue-java-processor/';
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2017/05/22/rxjava-operator-concatarray/';
         var disqus_script = 'embed.js';
       
     (function () {
