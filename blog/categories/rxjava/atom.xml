@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rxjava | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-05-22T09:32:34+08:00</updated>
+  <updated>2017-05-31T10:42:39+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -258,7 +258,7 @@ Flowable&lt;String&gt; stringFlowable = intFlowable.map(new Function&lt;Integer,
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[RxJava的初级使用]]></title>
+    <title type="html"><![CDATA[使用RxJava]]></title>
     <link href="http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android/"/>
     <updated>2017-04-04T15:45:23+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2017/04/04/use-rxjava-in-android</id>
