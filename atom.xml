@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2017-11-01T21:33:06+08:00</updated>
+  <updated>2017-11-01T21:39:08+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Java并发学习计划]]></title>
-    <link href="http://tmac010sjh.github.io/blog/2017/11/01/javabing-fa-xue-xi-ji-hua/"/>
-    <updated>2017-11-01T21:26:35+08:00</updated>
-    <id>http://tmac010sjh.github.io/blog/2017/11/01/javabing-fa-xue-xi-ji-hua</id>
-    <content type="html"><![CDATA[<p><a href="media/%E5%AD%A6%E4%B9%A0java%E5%B9%B6%E5%8F%91%E7%9B%B8%E5%85%B3-1.mindnode">学习java并发相关</a></p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[RxJava之concatArray操作符]]></title>
