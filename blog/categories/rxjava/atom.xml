@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rxjava | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-04-06T22:04:20+08:00</updated>
+  <updated>2018-04-29T14:37:36+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -137,7 +137,7 @@ after next value = 666
 <!--more-->
 
 
-<p>主要使用场景就是代码的复用</p>
+<p>这里举一个使用场景就是代码的复用</p>
 
 <p>e.g.Android中经常需要的线程切换</p>
 
@@ -158,37 +158,7 @@ after next value = 666
 .observeOn(AndroidSchedulers.mainThread())
 </code></pre>
 
-<p>可以用compose加工一下</p>
-
-<pre><code>Flawable&lt;Integer&gt; integerFlowable = Flowable.just(666);
-Flowable&lt;Integer&gt; composedFlowable = integerFlowable
-        .compose(new FlowableTransformer&lt;Integer, Integer&gt;() {
-                    @Override
-                    public Publisher&lt;Integer&gt; apply(Flowable&lt;Integer&gt; upstream) {
-
-                 Flowable&lt;Integer&gt; transformedIntegerFlowable = upstream
-                               .subscribeOn(Schedulers.io())
-                               .observeOn(AndroidSchedulers.mainThread())
-
-                        return transformedIntegerFlowable;
-                    }
-                });
-</code></pre>
-
-<p>compose方法接收一个<code>FlowableTransformer</code>对象</p>
-
-<pre><code>public interface FlowableTransformer&lt;Upstream, Downstream&gt; {
-
-    @NonNull
-    Publisher&lt;Downstream&gt; apply(@NonNull Flowable&lt;Upstream&gt; upstream);
-}
-</code></pre>
-
-<p>这里的<code>upstream</code> 代表的是上游的Flowable对象，<strong>暂时</strong> 可以直接理解成是<code>integerFlowable</code>，事实上传过来的是被包装后的integerFlowable对象</p>
-
-<p>这里的需要一个返回值<code>Publisher&lt;Downstream&gt;</code>，给下游继续操作，我们直接返回transformedIntegerFlowable，返回的这个transformedIntegerFlowable <strong>暂时</strong> 可以理解成就是composedFlowable</p>
-
-<p>通常我们会定义一个方法</p>
+<p>把部分的代码可以复用，因此我们放到工具类中</p>
 
 <pre><code>public class RxUtil {
 
@@ -197,6 +167,7 @@ Flowable&lt;Integer&gt; composedFlowable = integerFlowable
             @Override
             public Publisher&lt;T&gt; apply(Flowable&lt;T&gt; upstream) {
                 return upstream
+                        //代码移到这里了
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
             }
@@ -205,7 +176,7 @@ Flowable&lt;Integer&gt; composedFlowable = integerFlowable
 }
 </code></pre>
 
-<p>然后</p>
+<p>然后用<code>compose</code>操作符带上这坨代码</p>
 
 <pre><code>Flowable.just(666)
         .compose(RxUtil.&lt;Integer&gt;scheduler())
@@ -216,6 +187,19 @@ Flowable&lt;Integer&gt; composedFlowable = integerFlowable
             }
         });
 </code></pre>
+
+<p><code>compose</code>操作符接收一个<code>FlowableTransformer</code>对象</p>
+
+<pre><code>public interface FlowableTransformer&lt;Upstream, Downstream&gt; {
+
+    @NonNull
+    Publisher&lt;Downstream&gt; apply(@NonNull Flowable&lt;Upstream&gt; upstream);
+}
+</code></pre>
+
+<p>这里的<code>upstream</code> 代表的是上游的Flowable对象，本例中暂时可以理解成是<code>integerFlowable</code></p>
+
+<p>这里的需要一个返回值<code>Publisher&lt;Downstream&gt;</code>，给下游继续操作，我们返回的是<code>.observeOn执行后的Flowable对象，也就是FlowableObserveOn</code>对象</p>
 ]]></content>
   </entry>
   
