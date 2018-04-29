@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rxjava2 | he is coding]]></title>
-  <link href="http://tmac010sjh.github.io/blog/categories/rxjava2/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Rxjava | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-04-29T15:04:09+08:00</updated>
+  <updated>2018-04-29T15:32:45+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -253,13 +253,13 @@ Flowable&lt;String&gt; stringFlowable = intFlowable.map(new Function&lt;Integer,
 
 <h3>基本概念</h3>
 
-<h4><strong>被观察者/被订阅者</strong></h4>
+<h4><strong>被观察者</strong></h4>
 
-<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/被订阅者」</p></blockquote>
+<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者」</p></blockquote>
 
-<h4><strong>观察者/订阅者</strong></h4>
+<h4><strong>观察者</strong></h4>
 
-<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者/订阅者」 这个概念</p></blockquote>
+<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者」 这个概念</p></blockquote>
 
 <h4>订阅</h4>
 
@@ -271,11 +271,9 @@ Flowable&lt;String&gt; stringFlowable = intFlowable.map(new Function&lt;Integer,
 <pre><code>public interface Publisher&lt;T&gt; {
 
 /** 
-* 请求 「被观察者/被订阅者」 开始传输数据/发出事件
+* 请求 「被观察者」 开始传输数据/发出事件
 * 
-* 参数接收一个 「观察者/订阅者」，该 「观察者/订阅者」 将收到 
-* 「被观察者/被订阅者」 
-* 发射的一系列数据/事件
+* 参数接收一个「观察者」对象，该 「观察者」 将收到「被观察者」发射的一系列数据/事件
 */
 public void subscribe(Subscriber&lt;? super T&gt; s);
 
@@ -283,21 +281,21 @@ public void subscribe(Subscriber&lt;? super T&gt; s);
 </code></pre>
 
 <ul>
-<li>再看一下 代表 「观察者/订阅者」 的<code>Subscriber</code>接口</li>
+<li>再看一下 代表 「观察者」 的<code>Subscriber</code>接口</li>
 </ul>
 
 
 <pre><code>public interface Subscriber&lt;T&gt; {
 
    /**
-    * 当订阅发生的回调,
+    * 订阅发生时，此方法被回调,
     * 也就是在Publisher#subscribe(Subscriber&lt;? super T&gt; s)被调用后
     * 这个方法被回调
     */
     public void onSubscribe(Subscription s);
 
    /**
-    * 接收到 「被观察者/被订阅者」 发出的数据/事件
+    * 接收到 「被观察者」 发出的数据/事件
     */
     public void onNext(T t);
 
@@ -309,9 +307,9 @@ public void subscribe(Subscriber&lt;? super T&gt; s);
 
     /**
     * 当
-    * 「被观察者/被订阅者」 发射数据/事件完成
+    * 「被观察者」 发射数据/事件完成
     * 此方法会被回调
-    * 此后 「被观察者/被订阅者」 不会再发出任何数据/事件
+    * 此后 「被观察者」 不会再发出任何数据/事件
     */
     public void onComplete();
 }
@@ -331,25 +329,25 @@ public void subscribe(Subscriber&lt;? super T&gt; s);
 </ul>
 
 
-<p>e.g. 创建一个 「被观察者/被订阅者」 ,他在被订阅后会发射一个数字<code>666</code></p>
+<p>e.g. 创建一个 「被观察者」 ,他在被subscribe后会发射一个数字<code>666</code></p>
 
 <pre><code>Flowable&lt;Integer&gt; integerFlowable 
 = Flowable.create(new FlowableOnSubscribe&lt;Integer&gt;() {
                 @Override
                 public void subscribe(FlowableEmitter&lt;Integer&gt; e) throws Exception {
-                        e.onNext(666);//传递数据
-                        e.onComplete();//告诉 订阅者 ，事儿已经完成
+                        e.onNext(666);//往下游传递数据
+                        e.onComplete();//结束
                 }
-            }, BackpressureStrategy.LATEST);//这里是背压策略
+            }, BackpressureStrategy.LATEST);//背压策略
 </code></pre>
 
-<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者/订阅者」 对象，看上去好像是 「被观察者/被订阅者」 直接持有了 「观察者/订阅者」 ，然后调用他的各种方法。。。
+<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者」 对象，看上去好像是 「被观察者」 直接持有了 「观察者」 ，然后调用他的各种方法。。。
 (这里的细节后面再写。。。)</p>
 
 <pre><code>integerFlowable.subscribe(new Subscriber&lt;Integer&gt;() {
             @Override
             public void onSubscribe(Subscription s) {
-                //这里需要手动调用一下该方法，使 被观察者/被订阅者 开始工作
+                //这里需要手动调用一下该方法，使 被观察者开始工作
                 s.request(Long.MAX_VALUE);
             }
 

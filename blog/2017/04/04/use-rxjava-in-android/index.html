@@ -9,7 +9,7 @@
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="RxJava 扩展了观察者模式，以支持对数据和事件的一系列操作 基本概念 被观察者/被订阅者 也就是事件源，Rxjava中用接口Publisher来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/ &hellip;">
+  <meta name="description" content="RxJava 扩展了观察者模式，以支持对数据和事件的一系列操作 基本概念 被观察者 也就是事件源，Rxjava中用接口Publisher来表示 「被观察者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者」 观察者 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,13 +115,13 @@
 
 <h3>基本概念</h3>
 
-<h4><strong>被观察者/被订阅者</strong></h4>
+<h4><strong>被观察者</strong></h4>
 
-<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者/被订阅者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者/被订阅者」</p></blockquote>
+<blockquote><p>也就是事件源，Rxjava中用接口<code>Publisher</code>来表示 「被观察者」 这个概念，具体的实现类是Flowable，Flowable里面提供了很多的工厂方法来帮助我们创建各种各样的 「被观察者」</p></blockquote>
 
-<h4><strong>观察者/订阅者</strong></h4>
+<h4><strong>观察者</strong></h4>
 
-<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者/订阅者」 这个概念</p></blockquote>
+<blockquote><p>事件的消费者，Rxjava中用接口<code>Subscriber</code>来表示 「观察者」 这个概念</p></blockquote>
 
 <h4>订阅</h4>
 
@@ -140,16 +140,12 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>public interface Publisher&lt;T&gt; {
 </span><span class='line'>
 </span><span class='line'>/** 
-</span><span class='line'>* 请求 「被观察者/被订阅者」 开始传输数据/发出事件
+</span><span class='line'>* 请求 「被观察者」 开始传输数据/发出事件
 </span><span class='line'>* 
-</span><span class='line'>* 参数接收一个 「观察者/订阅者」，该 「观察者/订阅者」 将收到 
-</span><span class='line'>* 「被观察者/被订阅者」 
-</span><span class='line'>* 发射的一系列数据/事件
+</span><span class='line'>* 参数接收一个「观察者」对象，该 「观察者」 将收到「被观察者」发射的一系列数据/事件
 </span><span class='line'>*/
 </span><span class='line'>public void subscribe(Subscriber&lt;? super T&gt; s);
 </span><span class='line'>
@@ -157,7 +153,7 @@
 
 
 <ul>
-<li>再看一下 代表 「观察者/订阅者」 的<code>Subscriber</code>接口</li>
+<li>再看一下 代表 「观察者」 的<code>Subscriber</code>接口</li>
 </ul>
 
 
@@ -192,14 +188,14 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>public interface Subscriber&lt;T&gt; {
 </span><span class='line'>    
 </span><span class='line'>   /**
-</span><span class='line'>    * 当订阅发生的回调,
+</span><span class='line'>    * 订阅发生时，此方法被回调,
 </span><span class='line'>    * 也就是在Publisher#subscribe(Subscriber&lt;? super T&gt; s)被调用后
 </span><span class='line'>    * 这个方法被回调
 </span><span class='line'>    */
 </span><span class='line'>    public void onSubscribe(Subscription s);
 </span><span class='line'>
 </span><span class='line'>   /**
-</span><span class='line'>    * 接收到 「被观察者/被订阅者」 发出的数据/事件
+</span><span class='line'>    * 接收到 「被观察者」 发出的数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onNext(T t);
 </span><span class='line'>
@@ -211,9 +207,9 @@
 </span><span class='line'>
 </span><span class='line'>    /**
 </span><span class='line'>    * 当
-</span><span class='line'>    * 「被观察者/被订阅者」 发射数据/事件完成
+</span><span class='line'>    * 「被观察者」 发射数据/事件完成
 </span><span class='line'>    * 此方法会被回调
-</span><span class='line'>    * 此后 「被观察者/被订阅者」 不会再发出任何数据/事件
+</span><span class='line'>    * 此后 「被观察者」 不会再发出任何数据/事件
 </span><span class='line'>    */
 </span><span class='line'>    public void onComplete();
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
@@ -236,7 +232,7 @@
 </ul>
 
 
-<p>e.g. 创建一个 「被观察者/被订阅者」 ,他在被订阅后会发射一个数字<code>666</code></p>
+<p>e.g. 创建一个 「被观察者」 ,他在被subscribe后会发射一个数字<code>666</code></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -250,14 +246,14 @@
 </span><span class='line'>= Flowable.create(new FlowableOnSubscribe&lt;Integer&gt;() {
 </span><span class='line'>                @Override
 </span><span class='line'>                public void subscribe(FlowableEmitter&lt;Integer&gt; e) throws Exception {
-</span><span class='line'>                        e.onNext(666);//传递数据
-</span><span class='line'>                        e.onComplete();//告诉 订阅者 ，事儿已经完成
+</span><span class='line'>                        e.onNext(666);//往下游传递数据
+</span><span class='line'>                        e.onComplete();//结束
 </span><span class='line'>                }
-</span><span class='line'>            }, BackpressureStrategy.LATEST);//这里是背压策略
+</span><span class='line'>            }, BackpressureStrategy.LATEST);//背压策略
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者/订阅者」 对象，看上去好像是 「被观察者/被订阅者」 直接持有了 「观察者/订阅者」 ，然后调用他的各种方法。。。
+<p>这里的 <code>FlowableEmitter</code> <strong>暂时</strong> 可以理解成是我们在<code>subscribe(Subscriber&lt;? super T&gt; s)</code>中传入的 「观察者」 对象，看上去好像是 「被观察者」 直接持有了 「观察者」 ，然后调用他的各种方法。。。
 (这里的细节后面再写。。。)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -285,7 +281,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>integerFlowable.subscribe(new Subscriber&lt;Integer&gt;() {
 </span><span class='line'>            @Override
 </span><span class='line'>            public void onSubscribe(Subscription s) {
-</span><span class='line'>                //这里需要手动调用一下该方法，使 被观察者/被订阅者 开始工作
+</span><span class='line'>                //这里需要手动调用一下该方法，使 被观察者开始工作
 </span><span class='line'>                s.request(Long.MAX_VALUE);
 </span><span class='line'>            }
 </span><span class='line'>
@@ -445,7 +441,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/rxjava2/'>rxjava2</a>
+    <a class='category' href='/blog/categories/rxjava/'>rxjava</a>
   
 </span>
 
@@ -484,7 +480,7 @@
 <h1>文章分类</h1>
 <ul id="categories">
 <li class='category'><a href='/blog/categories/issue/'>issue (1)</a></li>
-<li class='category'><a href='/blog/categories/rxjava2/'>rxjava2 (5)</a></li>
+<li class='category'><a href='/blog/categories/rxjava/'>rxjava (5)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
 
 </ul>
