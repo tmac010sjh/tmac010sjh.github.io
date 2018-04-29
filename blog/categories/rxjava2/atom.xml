@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rxjava | he is coding]]></title>
-  <link href="http://tmac010sjh.github.io/blog/categories/rxjava/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Rxjava2 | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/rxjava2/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-04-29T14:37:49+08:00</updated>
+  <updated>2018-04-29T15:04:09+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
