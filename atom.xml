@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-06-05T18:26:48+08:00</updated>
+  <updated>2018-06-05T18:27:31+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -67,9 +67,7 @@
     <link href="http://tmac010sjh.github.io/blog/2018/06/05/nullsafe-in-kotlin/"/>
     <updated>2018-06-05T18:20:37+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2018/06/05/nullsafe-in-kotlin</id>
-    <content type="html"><![CDATA[<h1>空安全</h1>
-
-<blockquote><p>在声明变量时，我们必须要明确该变量是否为空，如果可以为空，则需要加上<code>？</code>后缀</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>在声明变量时，我们必须要明确该变量是否为空，如果可以为空，则需要加上<code>？</code>后缀</p></blockquote>
 
 <!-- more -->
 
