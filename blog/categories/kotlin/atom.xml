@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Kotlin | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/kotlin/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2018-06-05T18:12:59+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin入门]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/get-started-to-kotlin/"/>
+    <updated>2018-06-05T18:09:27+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/get-started-to-kotlin</id>
+    <content type="html"><![CDATA[<h3>定义变量</h3>
+
+<pre><code>val name : String = "this is my name"
+var count : Int = 666
+</code></pre>
+
+<!-- more -->
+
+
+<ul>
+<li>关键字<code>var</code>表示声明的变量可变，对应的<code>val</code>表示不可变，作用相当于Java的<code>final</code></li>
+<li>kotlin自带空安全检测，因此声明属性时我们必须明确该属性是否可以为<code>null</code>,区别就在与声明时是否加上<code>?</code></li>
+</ul>
+
+
+<pre><code>var name : String = null //编译不通过
+
+var name : String ? = null //通过
+</code></pre>
+
+<h3>定义方法</h3>
+
+<blockquote><p>kotlin中可以直接声名方法，和c类似，并不强制方法在类里面</p></blockquote>
+
+<pre><code>fun 方法名(形参声明:形参类型) : 返回值{
+    //...
+}
+</code></pre>
+
+<ul>
+<li>使用关键字<code>fun</code>开头</li>
+<li>参数声名顺序和Java是反的，中间用<code>:</code>隔开</li>
+<li>返回值在末尾，用<code>:</code>隔开</li>
+</ul>
+
+
+<blockquote><p>如果返回值为<code>Unit</code>可以省略，等价于Java中的<code>void</code> <br/>
+如果方法不在类里面，查看Java字节码，类似于工具类，所有的方法都是静态方法</p></blockquote>
+
+<p>e.g. 文件名: <code>ToastUtil.kt</code></p>
+
+<pre><code>fun show(msg : String){
+    //...
+}
+</code></pre>
+
+<p>等价于</p>
+
+<pre><code>public final class ToastUtil{
+    public static void show(String msg){
+        //...
+    }
+
+}
+</code></pre>
+
+<h3>定义类</h3>
+
+<h4>构造函数</h4>
+
+<blockquote><ul>
+<li>类名后面的为主构造函数</li>
+<li>可以没有主构造函数</li>
+<li>支持多个次构造函数</li>
+<li>次构造函数均需要调用主构造函数</li>
+<li>次构造函数的参数不能加<code>var</code> 或者<code>val</code></li>
+</ul>
+</blockquote>
+
+<pre><code>class User(val name : String/*主构造函数*/){
+
+    //次构造函数，关键字`constructor`
+    constructor(age : Int,name : String) : this(name){
+        // : this 调用主构造函数
+
+    }
+}
+</code></pre>
+
+<blockquote><p>不像次构造函数，主构造函数没有代码块可以执行，kotlin提供了init代码块</p></blockquote>
+
+<pre><code>init {
+    //这里的代码运行在主构造函数中
+    //也就是说即使没有主构造函数，这里的代码也会在次构造函数代码块之前执行
+}
+</code></pre>
+
+<h4>类属性</h4>
+
+<p>e.g.</p>
+
+<pre><code>class User(val name:String){
+    var age : Int = 12
+}
+</code></pre>
+
+<ul>
+<li><p>kotlin中类的属性默认是私有的，提供<code>get set</code>方法进行访问,(对<code>val</code>声明的不提供<code>set</code>方法)</p></li>
+<li><p>属性声明时(或者声明成员变量时)一定要初始化)，如果不能在声明时就初始化可以使用<code>lateinit</code>关键字，等待外部调用<code>set</code>方法进行初始化</p></li>
+</ul>
+
+
+<pre><code>lateinit var name : String
+</code></pre>
+
+<blockquote><p>注意：<code>lateinit</code>不能修饰基本类型</p></blockquote>
+
+<ul>
+<li>属性、init代码块、次构造函数代码块三者的调用顺序</li>
+</ul>
+
+
+<blockquote><p>属性和init代码块按照他们声明的顺序，次构造函数代码块在最后</p></blockquote>
+
+<h4>创建对象</h4>
+
+<blockquote><p>没有<code>new</code>关键字，和python类似</p></blockquote>
+
+<pre><code>val user = User("Tom")
+user.age = 666
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

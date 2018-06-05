@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-04-29T15:32:45+08:00</updated>
+  <updated>2018-06-05T18:12:59+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin入门]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/get-started-to-kotlin/"/>
+    <updated>2018-06-05T18:09:27+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/get-started-to-kotlin</id>
+    <content type="html"><![CDATA[<h3>定义变量</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>val name : String = "this is my name"
+</span><span class='line'>var count : Int = 666</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<ul>
+<li>关键字<code>var</code>表示声明的变量可变，对应的<code>val</code>表示不可变，作用相当于Java的<code>final</code></li>
+<li>kotlin自带空安全检测，因此声明属性时我们必须明确该属性是否可以为<code>null</code>,区别就在与声明时是否加上<code>?</code></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var name : String = null //编译不通过
+</span><span class='line'>
+</span><span class='line'>var name : String ? = null //通过
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>定义方法</h3>
+
+<blockquote><p>kotlin中可以直接声名方法，和c类似，并不强制方法在类里面</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fun 方法名(形参声明:形参类型) : 返回值{
+</span><span class='line'>    //...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用关键字<code>fun</code>开头</li>
+<li>参数声名顺序和Java是反的，中间用<code>:</code>隔开</li>
+<li>返回值在末尾，用<code>:</code>隔开</li>
+</ul>
+
+
+<blockquote><p>如果返回值为<code>Unit</code>可以省略，等价于Java中的<code>void</code> <br/>
+如果方法不在类里面，查看Java字节码，类似于工具类，所有的方法都是静态方法</p></blockquote>
+
+<p>e.g. 文件名: <code>ToastUtil.kt</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fun show(msg : String){
+</span><span class='line'>    //...
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等价于</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public final class ToastUtil{
+</span><span class='line'>    public static void show(String msg){
+</span><span class='line'>        //...
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>定义类</h3>
+
+<h4>构造函数</h4>
+
+<blockquote><ul>
+<li>类名后面的为主构造函数</li>
+<li>可以没有主构造函数</li>
+<li>支持多个次构造函数</li>
+<li>次构造函数均需要调用主构造函数</li>
+<li>次构造函数的参数不能加<code>var</code> 或者<code>val</code></li>
+</ul>
+</blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User(val name : String/*主构造函数*/){
+</span><span class='line'>    
+</span><span class='line'>    //次构造函数，关键字`constructor`
+</span><span class='line'>    constructor(age : Int,name : String) : this(name){
+</span><span class='line'>        // : this 调用主构造函数
+</span><span class='line'>    
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>不像次构造函数，主构造函数没有代码块可以执行，kotlin提供了init代码块</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>init {
+</span><span class='line'>    //这里的代码运行在主构造函数中
+</span><span class='line'>    //也就是说即使没有主构造函数，这里的代码也会在次构造函数代码块之前执行
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>类属性</h4>
+
+<p>e.g.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User(val name:String){
+</span><span class='line'>    var age : Int = 12
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>kotlin中类的属性默认是私有的，提供<code>get set</code>方法进行访问,(对<code>val</code>声明的不提供<code>set</code>方法)</p></li>
+<li><p>属性声明时(或者声明成员变量时)一定要初始化)，如果不能在声明时就初始化可以使用<code>lateinit</code>关键字，等待外部调用<code>set</code>方法进行初始化</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lateinit var name : String</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意：<code>lateinit</code>不能修饰基本类型</p></blockquote>
+
+<ul>
+<li>属性、init代码块、次构造函数代码块三者的调用顺序</li>
+</ul>
+
+
+<blockquote><p>属性和init代码块按照他们声明的顺序，次构造函数代码块在最后</p></blockquote>
+
+<h4>创建对象</h4>
+
+<blockquote><p>没有<code>new</code>关键字，和python类似</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>val user = User("Tom")
+</span><span class='line'>user.age = 666</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RxJava之concatArray操作符]]></title>
