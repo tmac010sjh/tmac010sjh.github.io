@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Kotin | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/kotin/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2018-06-05T18:17:49+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin中的类]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/classes-in-kotlin/"/>
+    <updated>2018-06-05T18:16:21+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/classes-in-kotlin</id>
+    <content type="html"><![CDATA[<h3>继承</h3>
+
+<ul>
+<li>继承和实现接口都使用<code>:</code></li>
+</ul>
+
+
+<pre><code>class A : B()
+</code></pre>
+
+<!-- more -->
+
+
+<h3>超类</h3>
+
+<blockquote><ul>
+<li>kotlin中万物的超类是<code>Any</code>&hellip;对应Java中的<code>Object</code></li>
+<li>默认声明的类都是final的，如果要声明一个可以继承的类，需添加关键字<code>open</code></li>
+<li>方法也是一样的，如果支持<code>override</code>，也需要加<code>open</code></li>
+<li>属性也是支持覆盖的，加<code>open</code>,本质上就是重写该属性的get方法</li>
+</ul>
+</blockquote>
+
+<pre><code>open class Shape{
+    open val name : String = "Shape"
+
+    open fun doSth(){
+        //...
+    }
+
+}
+
+class Rectangle : Shape(){
+
+    override val name: String
+        get() = "2222"
+
+    override fun dosth() {
+        super.dosth()
+    }
+}
+</code></pre>
+
+<blockquote><p>如果本身是抽象类，那就不需要<code>open</code>了</p></blockquote>
+
+<h3>接口</h3>
+
+<ul>
+<li>和Java8一样，支持默认实现</li>
+<li>可以声明属性，但是必须是抽象的或者使用访问器实现</li>
+</ul>
+
+
+<pre><code>interface x {
+    val count : Int = 1 //编译不通过
+
+    val count : Int // pass
+    //等价于 
+    fun getCount() : Int
+
+    val count : Int 
+        get()= 666
+    //等价于在上面的基础上提供了默认值666    
+
+}
+</code></pre>
+
+<ul>
+<li><code>override</code>冲突</li>
+</ul>
+
+
+<pre><code>interface A{
+    fun doSth()
+}
+
+interface B{
+    fun doSth()
+}
+
+class C : A,B{
+    override fun doSth(){
+        super&lt;A&gt;.doSth() // 指明调用A的方法
+    }
+}
+</code></pre>
+
+<h3>嵌套类</h3>
+
+<blockquote><p>两种，一种有<code>inner</code>关键字，相当于Java的非静态内部类，可以访问外部类对象，一种没有，相当于Java的静态内部类</p></blockquote>
+
+<pre><code>class A{
+    val name = "name"
+
+    inner class B {
+        fun x() = name
+    }
+
+    class C {
+    }
+}
+</code></pre>
+
+<h3>匿名类</h3>
+
+<blockquote><p>使用<code>object</code>关键字</p></blockquote>
+
+<pre><code>window.addMouseListener(object : MouseAdapter() {
+    override fun mouseClicked(e: MouseEvent) {
+        //...
+    }
+
+    override fun mouseEntered(e: MouseEvent) {
+        //...
+    }
+})
+</code></pre>
+
+<blockquote><p>生成某个超类的子类对象，并且这个子类对象还实现了某某接口</p></blockquote>
+
+<pre><code>open class A(x: Int) {
+    public open val y: Int = x
+}
+
+interface B {...}
+
+val ab: A = object : A(1), B {
+    override val y = 15
+}
+
+println(ab is A) //true
+println(ab is B) //true 
+
+//is 等于 Java的 instanceof
+</code></pre>
+
+<blockquote><p>或者仅仅是一个匿名对象</p></blockquote>
+
+<pre><code>val nothing = object {
+        var x: Int = 0
+        var y: Int = 0
+
+        fun work(){
+            //...
+        }   
+    }
+
+println(nothing.x)    
+</code></pre>
+
+<h3>单例类</h3>
+
+<pre><code>object Single {
+
+    fun work(){
+    }
+}
+
+Single.work()//可以直接调用
+</code></pre>
+
+<blockquote><p>类似于Java中的饿汉式单例模式</p></blockquote>
+
+<h3>伴生类</h3>
+
+<blockquote><ul>
+<li>使用关键字<code>companion</code></li>
+<li>必须定义在类中</li>
+<li>效果等同于Java中的静态变量，静态方法</li>
+</ul>
+</blockquote>
+
+<pre><code>class A {
+
+    companion object {
+        val NUM = 100
+
+        fun work() {
+        }
+    }
+}
+
+//可以直接当成静态变量访问
+print(A.NUM)
+A.work()
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
