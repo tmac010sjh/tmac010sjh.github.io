@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Kotlin | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/kotlin/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-06-05T18:17:49+08:00</updated>
+  <updated>2018-06-05T18:21:42+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin的空安全]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/nullsafe-in-kotlin/"/>
+    <updated>2018-06-05T18:20:37+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/nullsafe-in-kotlin</id>
+    <content type="html"><![CDATA[<h1>空安全</h1>
+
+<blockquote><p>在声明变量时，我们必须要明确该变量是否为空，如果可以为空，则需要加上<code>？</code>后缀</p></blockquote>
+
+<!-- more -->
+
+
+<pre><code>var b : String = null //编译不通过
+
+var b : String ? = null //通过
+</code></pre>
+
+<h3>安全的调用</h3>
+
+<p><code>var b : String? = null</code></p>
+
+<blockquote><p>此时当我们需要调用b的方法或者获取他的属性时，我们要确保b不能为null，安全调用操作符<code>?.</code>,当表达式非null时，返回真实的值，否则返回null</p></blockquote>
+
+<pre><code>
+print(b?.length) // null
+b = "null"
+print(b?.length) // 4
+
+等价于
+
+if(b==null){
+    print(null)
+}else{
+    print(b.length)
+}
+</code></pre>
+
+<blockquote><p>也可以处理成，发现null直接抛出NullPointException，而不是继续返回null，使用操作符<code>!!</code></p></blockquote>
+
+<pre><code>var b : String? = null
+print(b!!.length) // 抛出异常
+
+等价于
+
+if(b==null){
+    throw NullPointerException()
+}else{
+    print(b.length)
+}
+</code></pre>
+
+<h3>Elvis操作符</h3>
+
+<blockquote><ul>
+<li>使用符号<code>?:</code></li>
+<li>如果 ?: 左侧表达式非空，返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</li>
+</ul>
+</blockquote>
+
+<pre><code>val l = b?.length ?: -1
+
+等价于
+
+if(b == null){
+    l = -1
+}else{
+    l = b.length
+}
+</code></pre>
+
+<blockquote><ul>
+<li>右侧表达式还支持<code>抛异常</code>和<code>return</code></li>
+</ul>
+</blockquote>
+
+<pre><code>fun doSth(){
+    ...
+    val l = b?.length ?: return
+    val l = b?.length ?: throw NullPointException()
+    ...
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kotlin入门]]></title>
