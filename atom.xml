@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-06-05T18:21:42+08:00</updated>
+  <updated>2018-06-05T18:26:48+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin踩坑(持续更新ing)]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/"/>
+    <updated>2018-06-05T18:25:00+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin</id>
+    <content type="html"><![CDATA[<blockquote><p>记录kotlin使用过程中的一些小坑，注意点</p></blockquote>
+
+<!-- more -->
+
+
+<ul>
+<li>fragment中使用ktx插件，需要在<code>onViewCreated</code>中使用</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+</span><span class='line'>                              savedInstanceState: Bundle?): View? {
+</span><span class='line'>        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+</span><span class='line'>        //不可以在这里使用recycler_view，会报npe
+</span><span class='line'>        return rootView
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+</span><span class='line'>        super.onViewCreated(view, savedInstanceState)
+</span><span class='line'>        val homeButtonAdapter = HomeButtonAdapter()
+</span><span class='line'>        recycler_view.adapter = homeButtonAdapter
+</span><span class='line'>        recycler_view.layoutManager = GridLayoutManager(context, 3)
+</span><span class='line'>
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kotlin的空安全]]></title>

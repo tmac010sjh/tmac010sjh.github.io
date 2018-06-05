@@ -5,11 +5,25 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Issue - he is coding</title>
+  <title>Kotlin踩坑(持续更新ing) - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="Category: issue">
+  <meta name="description" content="记录kotlin使用过程中的一些小坑，注意点 fragment中使用ktx插件，需要在onViewCreated中使用 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+override fun onCreateView(inflater: LayoutInflater, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/blog/categories/issue/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -85,36 +99,118 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Issue</h1>
+    
+      <h1 class="entry-title">Kotlin踩坑(持续更新ing)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-06-05T18:25:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:25 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><blockquote><p>记录kotlin使用过程中的一些小坑，注意点</p></blockquote>
 
-  
-  <h2>2017</h2>
-
-<article>
-  
-<h1><a href="/blog/2017/04/04/issue-java-processor/">Java注解处理器报错：服务配置文件不正确</a></h1>
-<time datetime="2017-04-04T16:10:34+08:00" pubdate><span class='month'>Apr</span> <span class='day'>04</span> <span class='year'>2017</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/issue/'>issue</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<ul>
+<li>fragment中使用ktx插件，需要在<code>onViewCreated</code>中使用</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+</span><span class='line'>                              savedInstanceState: Bundle?): View? {
+</span><span class='line'>        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+</span><span class='line'>        //不可以在这里使用recycler_view，会报npe
+</span><span class='line'>        return rootView
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+</span><span class='line'>        super.onViewCreated(view, savedInstanceState)
+</span><span class='line'>        val homeButtonAdapter = HomeButtonAdapter()
+</span><span class='line'>        recycler_view.adapter = homeButtonAdapter
+</span><span class='line'>        recycler_view.layoutManager = GridLayoutManager(context, 3)
+</span><span class='line'>
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">T_MAC</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-06-05T18:25:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:25 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/kotlin/'>kotlin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/06/05/nullsafe-in-kotlin/" title="Previous Post: kotlin的空安全">&laquo; kotlin的空安全</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -180,7 +276,10 @@
       var disqus_shortname = 'heiscoding';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Kotlin | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/kotlin/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-06-05T18:21:42+08:00</updated>
+  <updated>2018-06-05T18:26:48+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kotlin踩坑(持续更新ing)]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/"/>
+    <updated>2018-06-05T18:25:00+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin</id>
+    <content type="html"><![CDATA[<blockquote><p>记录kotlin使用过程中的一些小坑，注意点</p></blockquote>
+
+<!-- more -->
+
+
+<ul>
+<li>fragment中使用ktx插件，需要在<code>onViewCreated</code>中使用</li>
+</ul>
+
+
+<pre><code>override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        //不可以在这里使用recycler_view，会报npe
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val homeButtonAdapter = HomeButtonAdapter()
+        recycler_view.adapter = homeButtonAdapter
+        recycler_view.layoutManager = GridLayoutManager(context, 3)
+
+    }
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kotlin的空安全]]></title>
