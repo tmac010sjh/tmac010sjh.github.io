@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Swift | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/swift/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2018-11-23T22:15:46+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Swift语法速查]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/11/23/get-started-to-swift/"/>
+    <updated>2018-11-23T22:13:17+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/11/23/get-started-to-swift</id>
+    <content type="html"><![CDATA[<blockquote><p>基于swift3.0
+如果有Java或者kotlin基础，可以更快的上手</p></blockquote>
+
+<h3>变量声明</h3>
+
+<p>常量 let
+变量 var</p>
+
+<!-- more -->
+
+
+<h3>元组</h3>
+
+<pre><code class="swift">let people = ("John",22)
+</code></pre>
+
+<h3>数组</h3>
+
+<pre><code>let stringArray = Array&lt;String&gt;()
+let floatArray = [Float]()
+let a = ["Zoe","Tom"]
+</code></pre>
+
+<h3>字典</h3>
+
+<pre><code>var dict1 = Dictionary&lt;String,String&gt;()
+
+var dict2 = ["Zoe":78,"Tom":20]
+</code></pre>
+
+<h3>for</h3>
+
+<pre><code>for index in 0..&lt;3
+//区间[0,3)
+for index in 0...3
+//区间[0,3]
+</code></pre>
+
+<p>遍历数组</p>
+
+<pre><code>let students = ["Zoe","Tom"]
+for student in students
+{
+    //...
+}
+</code></pre>
+
+<p>遍历字典</p>
+
+<pre><code>let scores = ["Zoe":78,"Tom":20]
+for (student,score) in scores
+{
+    //...
+}
+</code></pre>
+
+<h3>函数</h3>
+
+<p>格式</p>
+
+<pre><code>func 函数名(变量:类型) -&gt; 返回值
+{
+    //...
+}
+</code></pre>
+
+<p>参数支持默认值</p>
+
+<p>函数的输入输出参数</p>
+
+<pre><code class="swift">func swap(number: inout Double)
+{
+    //...
+}
+
+var num = 1
+swap(&amp;num)//加上&amp;符号
+</code></pre>
+
+<h3>结构体</h3>
+
+<pre><code>struct 名称 {
+}
+</code></pre>
+
+<blockquote><p>类是引用类型，而结构体和枚举都是值类型。值类型是一种当它被指定为常量或者变量，或者被传递给函数时会被拷贝的类型。这意味着你所创建的任何结构体和枚举实例，作为属性所包含的任意值类型，在代码传递中总是被拷贝的。</p></blockquote>
+
+<p>下标</p>
+
+<blockquote><p>结构体、类和枚举都可以定义下标，它可以作为访问集合、列表或序列成员元素的快捷方式。可以使用下标通过索引值来设置或检索值，而不需要为设置和检索分别使用实例方法。</p></blockquote>
+
+<pre><code class="swift">struct MySubscript {
+    var number:Int
+    subscript(n:Int) -&gt; Int {
+        return number * n
+    }
+}
+
+let subScript = MySubscript(number:4)
+print(subScript[3])//output 12
+</code></pre>
+
+<h3>类</h3>
+
+<h4>init方法</h4>
+
+<pre><code class="swift">class Car {
+    var brand : String
+
+    //类似无参数的构造方法
+    init(){
+        self.brand = "BMW"
+    }
+
+    init(brand:String){
+        self.brand = brand
+    }
+}
+let car1 = Car()
+car1.brand = "Audi"
+let car2 = Car("Benz")
+</code></pre>
+
+<h4>get、set方法</h4>
+
+<p>参见kotlin</p>
+
+<pre><code>var age : Int
+{
+    get
+    {
+        return 23
+    }
+    set(newAge)
+    {
+        age = newAge
+    }
+}
+</code></pre>
+
+<h4>willSet和didSet方法</h4>
+
+<p>设置前和设置后的回调</p>
+
+<pre><code>var level : Int = 1
+{
+    willSet
+    {
+        //设置前
+    }
+    didSet
+    {
+        //设置后
+    }
+}
+</code></pre>
+
+<h4>静态方法</h4>
+
+<p>使用class关键字</p>
+
+<pre><code>class MathTool
+{
+    class func sum(a:Int, b:Int) -&gt; Int
+    {
+        return a + b
+    }
+}
+</code></pre>
+
+<h4>析构</h4>
+
+<pre><code>deinit
+{
+}
+</code></pre>
+
+<h3>其它</h3>
+
+<h4>字符串输入</h4>
+
+<pre><code class="swift">let age  = 23
+print("我的年龄是\(age)")
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

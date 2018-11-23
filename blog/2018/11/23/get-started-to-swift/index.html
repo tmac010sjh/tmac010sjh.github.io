@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift语法速查 - he is coding</title>
+  <meta name="author" content="T_MAC">
+
+  
+  <meta name="description" content="基于swift3.0
+如果有Java或者kotlin基础，可以更快的上手 变量声明 常量 let
+变量 var 元组 1
+let people = (&quot;John&quot;,22) 数组 1
+2
+3
+let stringArray = Array&lt;String&gt;()
+let &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2018/11/23/get-started-to-swift/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">-->
+<script>
+	function addBlankTargetForLinks () {
+				  $('a[href^="http"]').each(function(){
+								  		  $(this).attr('target', '_blank');
+										  	  });
+				  	}
+	$(document).bind('DOMNodeInserted', function(event) {
+						  addBlankTargetForLinks();
+						  	});
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-117123228-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">he is coding</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="tmac010sjh.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift语法速查</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-11-23T22:13:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:13 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>基于swift3.0
+如果有Java或者kotlin基础，可以更快的上手</p></blockquote>
+
+<h3>变量声明</h3>
+
+<p>常量 let
+变量 var</p>
+
+<!-- more -->
+
+
+<h3>元组</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">people</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">,</span><span class="mi">22</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>数组</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">stringArray</span> <span class="o">=</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">()</span>
+</span><span class='line'><span class="k">let</span> <span class="n">floatArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">Float</span><span class="p">]()</span>
+</span><span class='line'><span class="k">let</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Zoe&quot;</span><span class="p">,</span><span class="s">&quot;Tom&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>字典</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">dict1</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">var</span> <span class="n">dict2</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Zoe&quot;</span><span class="o">:</span><span class="mi">78</span><span class="p">,</span><span class="s">&quot;Tom&quot;</span><span class="o">:</span><span class="mi">20</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>for</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">3</span>
+</span><span class='line'><span class="c1">//区间[0,3)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="mf">.3</span>
+</span><span class='line'><span class="c1">//区间[0,3]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>遍历数组</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">students</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Zoe&quot;</span><span class="p">,</span><span class="s">&quot;Tom&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">student</span> <span class="k">in</span> <span class="n">students</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>遍历字典</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Zoe&quot;</span><span class="o">:</span><span class="mi">78</span><span class="p">,</span><span class="s">&quot;Tom&quot;</span><span class="o">:</span><span class="mi">20</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">student</span><span class="p">,</span><span class="n">score</span><span class="p">)</span> <span class="k">in</span> <span class="n">scores</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>函数</h3>
+
+<p>格式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="err">函数名</span><span class="p">(</span><span class="err">变量</span><span class="o">:</span><span class="err">类型</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="err">返回值</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参数支持默认值</p>
+
+<p>函数的输入输出参数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">swap</span><span class="p">(</span><span class="nl">number</span><span class="p">:</span> <span class="k">inout</span> <span class="n">Double</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">var</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">num</span><span class="p">)</span><span class="c1">//加上&amp;符号</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>结构体</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="err">名称</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>类是引用类型，而结构体和枚举都是值类型。值类型是一种当它被指定为常量或者变量，或者被传递给函数时会被拷贝的类型。这意味着你所创建的任何结构体和枚举实例，作为属性所包含的任意值类型，在代码传递中总是被拷贝的。</p></blockquote>
+
+<p>下标</p>
+
+<blockquote><p>结构体、类和枚举都可以定义下标，它可以作为访问集合、列表或序列成员元素的快捷方式。可以使用下标通过索引值来设置或检索值，而不需要为设置和检索分别使用实例方法。</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">MySubscript</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">number</span><span class="p">:</span><span class="n">Int</span>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="nl">n</span><span class="p">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">number</span> <span class="o">*</span> <span class="n">n</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">subScript</span> <span class="o">=</span> <span class="n">MySubscript</span><span class="p">(</span><span class="nl">number</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="n">subScript</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="c1">//output 12</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>类</h3>
+
+<h4>init方法</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Car</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">brand</span> <span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//类似无参数的构造方法</span>
+</span><span class='line'>    <span class="k">init</span><span class="p">(){</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">brand</span> <span class="o">=</span> <span class="s">&quot;BMW&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">init</span><span class="p">(</span><span class="nl">brand</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">brand</span> <span class="o">=</span> <span class="n">brand</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">let</span> <span class="n">car1</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
+</span><span class='line'><span class="n">car1</span><span class="p">.</span><span class="n">brand</span> <span class="o">=</span> <span class="s">&quot;Audi&quot;</span>
+</span><span class='line'><span class="k">let</span> <span class="n">car2</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">&quot;Benz&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>get、set方法</h4>
+
+<p>参见kotlin</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="nl">age</span> <span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kr">get</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">23</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kr">set</span><span class="p">(</span><span class="n">newAge</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">age</span> <span class="o">=</span> <span class="n">newAge</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>willSet和didSet方法</h4>
+
+<p>设置前和设置后的回调</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="nl">level</span> <span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kr">willSet</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//设置前</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kr">didSet</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//设置后</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>静态方法</h4>
+
+<p>使用class关键字</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">MathTool</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="k">func</span> <span class="n">sum</span><span class="p">(</span><span class="nl">a</span><span class="p">:</span><span class="n">Int</span><span class="p">,</span> <span class="nl">b</span><span class="p">:</span><span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>析构</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">deinit</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>其它</h3>
+
+<h4>字符串输入</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">age</span>  <span class="o">=</span> <span class="mi">23</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;我的年龄是\(age)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">T_MAC</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-11-23T22:13:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>10:13 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/06/05/watch-out-in-kotlin/" title="Previous Post: kotlin踩坑(持续更新ing)">&laquo; kotlin踩坑(持续更新ing)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>文章分类</h1>
+<ul id="categories">
+<li class='category'><a href='/blog/categories/issue/'>issue (1)</a></li>
+<li class='category'><a href='/blog/categories/kotlin/'>kotlin (4)</a></li>
+<li class='category'><a href='/blog/categories/rxjava/'>rxjava (5)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (1)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/11/23/get-started-to-swift/">Swift语法速查</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/06/05/watch-out-in-kotlin/">Kotlin踩坑(持续更新ing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/06/05/nullsafe-in-kotlin/">Kotlin的空安全</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/06/05/classes-in-kotlin/">Kotlin中的类</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/06/05/get-started-to-kotlin/">Kotlin入门</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - T_MAC -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'heiscoding';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2018/11/23/get-started-to-swift/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2018/11/23/get-started-to-swift/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
