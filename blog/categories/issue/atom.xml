@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Issue | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/issue/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-11-23T22:15:46+08:00</updated>
+  <updated>2018-11-30T21:27:07+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,158 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ScrollView嵌套ViewPager嵌套RecyclerView]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/11/30/qian-tao/"/>
+    <updated>2018-11-30T21:14:24+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/11/30/qian-tao</id>
+    <content type="html"><![CDATA[<h3>需求背景</h3>
+
+<blockquote><p>一图胜千言</p></blockquote>
+
+<p><img class="/images/<a" src="href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#87;&#x58;&#x32;&#x30;&#49;&#56;&#x31;&#49;&#51;&#48;&#x2d;&#x32;&#49;&#50;&#52;&#x34;&#x33;&#64;&#x32;&#120;&#46;&#x70;&#x6e;&#x67;">&#87;&#x58;&#50;&#x30;&#x31;&#x38;&#x31;&#x31;&#51;&#48;&#x2d;&#50;&#49;&#50;&#52;&#x34;&#x33;&#64;&#50;&#x78;&#46;&#x70;&#110;&#103;</a>"></p>
+
+<p>点击<code>展开按钮</code>可以展开</p>
+
+<p><img class="/images/<a" src="href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x57;&#88;&#x32;&#48;&#x31;&#x38;&#x31;&#x31;&#x33;&#48;&#45;&#50;&#49;&#50;&#52;&#x34;&#x33;&#64;&#50;&#120;&#x2e;&#x70;&#x6e;&#x67;">&#87;&#x58;&#x32;&#48;&#49;&#x38;&#x31;&#x31;&#x33;&#x30;&#x2d;&#x32;&#49;&#x32;&#52;&#x34;&#x33;&#64;&#x32;&#x78;&#46;&#112;&#x6e;&#103;</a>"></p>
+
+<ol>
+<li>首先这个页面可以竖向滑动</li>
+<li>tab栏固定位置，只有tab栏底下的部分滑动</li>
+<li>点击上面的tab，底下的条目会有对应的切换，横向滑动下面条目，tab也会更改对应的选中状态</li>
+<li>点击展开按钮/收起按钮，条目数量会有对应的变化</li>
+<li>tab在切换时，底部的<code>横向RecyclerView</code>不动</li>
+</ol>
+
+
+<h3>实现</h3>
+
+<p>最终我选择的方案是
+最外层LinearLayout，里面依次为<code>播放器</code>，<code>TabLayout</code>，<code>ScrollView</code>
+ScrollView里面竖向包含ViewPager和底部的横向RecyclerView
+ViewPager里面的每个子view都是RecyclerView</p>
+
+<h3>遇到的问题</h3>
+
+<ol>
+<li>ViewPager的高度出不来</li>
+<li>ScrollView和ViewPager里面的RecyclerView滑动冲突</li>
+</ol>
+
+
+<h3>分析解决</h3>
+
+<h4>ViewPager的高度出不来</h4>
+
+<p>对于这个问题，可以重写ViewPager的<code>onMeasure</code>方法，重新定义测量子View的规则。
+还有个问题，每个tab展开收缩的状态都不一样，一次在切tab时，要重新测量</p>
+
+<pre><code>public class CustomViewPager extends ViewPager {
+
+    private int current;
+    private int height = 0;
+    /**
+     * 保存position与对于的View
+     */
+    private SparseArray&lt;View&gt; mChildrenViews = new SparseArray&lt;View&gt;();
+
+    public CustomViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                resetHeight(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        if (mChildrenViews.size() &gt; current) {
+            View child = mChildrenViews.get(current);
+            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            height = child.getMeasuredHeight();
+        }
+
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public void resetHeight(int current) {
+        this.current = current;
+        if (mChildrenViews.size() &gt; current) {
+
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) getLayoutParams();
+            if (layoutParams == null) {
+                layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+            } else {
+                layoutParams.height = height;
+            }
+            setLayoutParams(layoutParams);
+        }
+    }
+
+    /**
+     * 在RecyclerView初始化之后调用这个方法
+     * 
+     * 保存position和View的对应关系
+     */
+    public void setObjectForPosition(View view, int position) {
+        mChildrenViews.put(position, view);
+    }
+}
+</code></pre>
+
+<h4>ScrollView和ViewPager里面的RecyclerView滑动冲突</h4>
+
+<p>让ScrollView拦截所有的竖向滑动事件</p>
+
+<pre><code>public class CustomScrollView extends ScrollView {
+
+    private int downY;
+    private int mTouchSlop;
+
+    public CustomScrollView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                downY = (int) ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int moveY = (int) ev.getRawY();
+                // 判断是否滑动，若滑动就拦截事件
+                if (Math.abs(moveY - downY) &gt; mTouchSlop) {
+                    return true;
+                }
+                break;
+            default:
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Java注解处理器报错：服务配置文件不正确]]></title>

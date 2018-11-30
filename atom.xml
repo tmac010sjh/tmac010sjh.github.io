@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-11-23T22:15:46+08:00</updated>
+  <updated>2018-11-30T21:27:07+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,254 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ScrollView嵌套ViewPager嵌套RecyclerView]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/11/30/qian-tao/"/>
+    <updated>2018-11-30T21:14:24+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/11/30/qian-tao</id>
+    <content type="html"><![CDATA[<h3>需求背景</h3>
+
+<blockquote><p>一图胜千言</p></blockquote>
+
+<p><img src="http://tmac010sjh.github.io/images/WX20181130-212443@2x.png"></p>
+
+<p>点击<code>展开按钮</code>可以展开</p>
+
+<p><img src="http://tmac010sjh.github.io/images/WX20181130-212443@2x.png"></p>
+
+<ol>
+<li>首先这个页面可以竖向滑动</li>
+<li>tab栏固定位置，只有tab栏底下的部分滑动</li>
+<li>点击上面的tab，底下的条目会有对应的切换，横向滑动下面条目，tab也会更改对应的选中状态</li>
+<li>点击展开按钮/收起按钮，条目数量会有对应的变化</li>
+<li>tab在切换时，底部的<code>横向RecyclerView</code>不动</li>
+</ol>
+
+
+<h3>实现</h3>
+
+<p>最终我选择的方案是
+最外层LinearLayout，里面依次为<code>播放器</code>，<code>TabLayout</code>，<code>ScrollView</code>
+ScrollView里面竖向包含ViewPager和底部的横向RecyclerView
+ViewPager里面的每个子view都是RecyclerView</p>
+
+<h3>遇到的问题</h3>
+
+<ol>
+<li>ViewPager的高度出不来</li>
+<li>ScrollView和ViewPager里面的RecyclerView滑动冲突</li>
+</ol>
+
+
+<h3>分析解决</h3>
+
+<h4>ViewPager的高度出不来</h4>
+
+<p>对于这个问题，可以重写ViewPager的<code>onMeasure</code>方法，重新定义测量子View的规则。
+还有个问题，每个tab展开收缩的状态都不一样，一次在切tab时，要重新测量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class CustomViewPager extends ViewPager {
+</span><span class='line'>
+</span><span class='line'>    private int current;
+</span><span class='line'>    private int height = 0;
+</span><span class='line'>    /**
+</span><span class='line'>     * 保存position与对于的View
+</span><span class='line'>     */
+</span><span class='line'>    private SparseArray&lt;View&gt; mChildrenViews = new SparseArray&lt;View&gt;();
+</span><span class='line'>
+</span><span class='line'>    public CustomViewPager(Context context, AttributeSet attrs) {
+</span><span class='line'>        super(context, attrs);
+</span><span class='line'>        addOnPageChangeListener(new OnPageChangeListener() {
+</span><span class='line'>            @Override
+</span><span class='line'>            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+</span><span class='line'>
+</span><span class='line'>            }
+</span><span class='line'>
+</span><span class='line'>            @Override
+</span><span class='line'>            public void onPageSelected(int position) {
+</span><span class='line'>                resetHeight(position);
+</span><span class='line'>            }
+</span><span class='line'>
+</span><span class='line'>            @Override
+</span><span class='line'>            public void onPageScrollStateChanged(int state) {
+</span><span class='line'>
+</span><span class='line'>            }
+</span><span class='line'>        });
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+</span><span class='line'>
+</span><span class='line'>        if (mChildrenViews.size() &gt; current) {
+</span><span class='line'>            View child = mChildrenViews.get(current);
+</span><span class='line'>            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+</span><span class='line'>            height = child.getMeasuredHeight();
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+</span><span class='line'>
+</span><span class='line'>        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public void resetHeight(int current) {
+</span><span class='line'>        this.current = current;
+</span><span class='line'>        if (mChildrenViews.size() &gt; current) {
+</span><span class='line'>
+</span><span class='line'>            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) getLayoutParams();
+</span><span class='line'>            if (layoutParams == null) {
+</span><span class='line'>                layoutParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+</span><span class='line'>            } else {
+</span><span class='line'>                layoutParams.height = height;
+</span><span class='line'>            }
+</span><span class='line'>            setLayoutParams(layoutParams);
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    /**
+</span><span class='line'>     * 在RecyclerView初始化之后调用这个方法
+</span><span class='line'>     * 
+</span><span class='line'>     * 保存position和View的对应关系
+</span><span class='line'>     */
+</span><span class='line'>    public void setObjectForPosition(View view, int position) {
+</span><span class='line'>        mChildrenViews.put(position, view);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ScrollView和ViewPager里面的RecyclerView滑动冲突</h4>
+
+<p>让ScrollView拦截所有的竖向滑动事件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class CustomScrollView extends ScrollView {
+</span><span class='line'>
+</span><span class='line'>    private int downY;
+</span><span class='line'>    private int mTouchSlop;
+</span><span class='line'>
+</span><span class='line'>    public CustomScrollView(Context context, AttributeSet attrs) {
+</span><span class='line'>        super(context, attrs);
+</span><span class='line'>        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    @Override
+</span><span class='line'>    public boolean onInterceptTouchEvent(MotionEvent ev) {
+</span><span class='line'>        int action = ev.getAction();
+</span><span class='line'>        switch (action) {
+</span><span class='line'>            case MotionEvent.ACTION_DOWN:
+</span><span class='line'>                downY = (int) ev.getRawY();
+</span><span class='line'>                break;
+</span><span class='line'>            case MotionEvent.ACTION_MOVE:
+</span><span class='line'>                int moveY = (int) ev.getRawY();
+</span><span class='line'>                // 判断是否滑动，若滑动就拦截事件
+</span><span class='line'>                if (Math.abs(moveY - downY) &gt; mTouchSlop) {
+</span><span class='line'>                    return true;
+</span><span class='line'>                }
+</span><span class='line'>                break;
+</span><span class='line'>            default:
+</span><span class='line'>                break;
+</span><span class='line'>        }
+</span><span class='line'>        return super.onInterceptTouchEvent(ev);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift语法速查]]></title>
