@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2018-11-30T21:31:09+08:00</updated>
+  <updated>2018-12-21T16:09:36+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World Blog]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2018/12/21/hello-world-blog/"/>
+    <updated>2018-12-21T16:08:44+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2018/12/21/hello-world-blog</id>
+    <content type="html"><![CDATA[<p>hello world blog</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ScrollView嵌套ViewPager嵌套RecyclerView]]></title>
@@ -22,10 +31,10 @@
 
 <blockquote><p>一图胜千言</p></blockquote>
 
+<!-- more -->
+
+
 <p><img src="http://tmac010sjh.github.io/images/WX20181130-212422@2x.png"></p>
-
-<!--more-->
-
 
 <p>点击<code>展开按钮</code>可以展开</p>
 
