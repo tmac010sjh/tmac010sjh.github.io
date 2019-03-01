@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2019-03-01T10:22:34+08:00</updated>
+  <updated>2019-03-01T10:24:36+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -19,6 +19,9 @@
     <updated>2019-03-01T10:10:21+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2019/03/01/scroller-source-code</id>
     <content type="html"><![CDATA[<h2>代码模版</h2>
+
+<!-- more -->
+
 
 <pre><code class="java">//实例化Scroller对象，在自定义View中，mContext可以在自定义View的构造方法中获取
 Scroller mScroller = new Scroller(mContext);
@@ -48,12 +51,9 @@ public void computeScroll(){
 }
 </code></pre>
 
-<!-- more -->
-
-
 <h2>流程图</h2>
 
-<p><img class="/images/<a" src="href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x57;&#88;&#50;&#x30;&#49;&#57;&#48;&#51;&#48;&#49;&#45;&#x31;&#48;&#50;&#x30;&#x34;&#x37;&#64;&#x32;&#x78;&#46;&#x70;&#110;&#103;">&#x57;&#x58;&#50;&#x30;&#x31;&#x39;&#48;&#51;&#x30;&#49;&#45;&#49;&#48;&#50;&#48;&#x34;&#x37;&#x40;&#50;&#x78;&#x2e;&#x70;&#110;&#x67;</a>"></p>
+<p><img class="/images/<a" src="href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x57;&#88;&#x32;&#48;&#x31;&#x39;&#48;&#x33;&#x30;&#49;&#x2d;&#49;&#48;&#50;&#48;&#52;&#55;&#64;&#x32;&#x78;&#46;&#112;&#110;&#103;">&#87;&#88;&#x32;&#48;&#49;&#x39;&#48;&#x33;&#48;&#x31;&#x2d;&#x31;&#48;&#x32;&#48;&#x34;&#x37;&#x40;&#x32;&#120;&#46;&#x70;&#110;&#103;</a>"></p>
 ]]></content>
   </entry>
   

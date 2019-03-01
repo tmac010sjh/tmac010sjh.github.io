@@ -4,7 +4,7 @@
   <title><![CDATA[he is coding]]></title>
   <link href="http://tmac010sjh.github.io/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2019-03-01T10:22:34+08:00</updated>
+  <updated>2019-03-01T10:24:36+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -19,6 +19,11 @@
     <updated>2019-03-01T10:10:21+08:00</updated>
     <id>http://tmac010sjh.github.io/blog/2019/03/01/scroller-source-code</id>
     <content type="html"><![CDATA[<h2>代码模版</h2>
+
+<!-- more -->
+
+
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -73,11 +78,6 @@
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
 
 
 <h2>流程图</h2>
