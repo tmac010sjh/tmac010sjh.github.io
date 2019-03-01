@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Kotlin踩坑(持续更新ing) - he is coding</title>
+  <title>ViewGroup对触摸事件的处理流程 - he is coding</title>
   <meta name="author" content="T_MAC">
 
   
-  <meta name="description" content="记录kotlin使用过程中的一些小坑，注意点 fragment中使用ktx插件，需要在onViewCreated中使用 1
+  <meta name="description" content="伪代码表示，摘自《Android开发艺术探索》 1
 2
 3
 4
@@ -18,12 +18,7 @@
 7
 8
 9
-10
-11
-12
-13
-14
-override fun onCreateView(inflater: LayoutInflater, &hellip;">
+public boolean dispatchTouchEvent(MotionEvent ev) { boolean consume = false; if (onInterceptTouchEvent(ev &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,7 +27,7 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/">
+  <link rel="canonical" href="http://tmac010sjh.github.io/blog/2019/03/01/viewgroup-number-dispatchtouchevent/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="he is coding" type="application/atom+xml">
@@ -103,7 +98,7 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Kotlin踩坑(持续更新ing)</h1>
+      <h1 class="entry-title">ViewGroup对触摸事件的处理流程</h1>
     
     
       <p class="meta">
@@ -112,7 +107,7 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
 
 
 
-<time class='entry-date' datetime='2018-06-05T18:25:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:25 pm</span></time>
+<time class='entry-date' datetime='2019-03-01T10:09:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2019</span></span> <span class='time'>10:09 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://tmac010sjh.github.io">Comments</a>
@@ -122,15 +117,7 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
   </header>
 
 
-<div class="entry-content"><blockquote><p>记录kotlin使用过程中的一些小坑，注意点</p></blockquote>
-
-<!-- more -->
-
-
-<ul>
-<li>fragment中使用ktx插件，需要在<code>onViewCreated</code>中使用</li>
-</ul>
-
+<div class="entry-content"><p>伪代码表示，摘自《Android开发艺术探索》</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -141,28 +128,72 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-</span><span class='line'>                              savedInstanceState: Bundle?): View? {
-</span><span class='line'>        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
-</span><span class='line'>        //不可以在这里使用recycler_view，会报npe
-</span><span class='line'>        return rootView
+</pre></td><td class='code'><pre><code class=''><span class='line'>public boolean dispatchTouchEvent(MotionEvent ev) {
+</span><span class='line'>    boolean consume = false;
+</span><span class='line'>    if (onInterceptTouchEvent(ev)) {
+</span><span class='line'>        consume = onTouchEvent(ev);
+</span><span class='line'>    } else {
+</span><span class='line'>        consume = child.dispatchTouchEvent(ev);
 </span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-</span><span class='line'>        super.onViewCreated(view, savedInstanceState)
-</span><span class='line'>        val homeButtonAdapter = HomeButtonAdapter()
-</span><span class='line'>        recycler_view.adapter = homeButtonAdapter
-</span><span class='line'>        recycler_view.layoutManager = GridLayoutManager(context, 3)
-</span><span class='line'>
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    return consume;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 
+
+<!-- more -->
+
+
+<h2>ViewGroup#dispatchTouchEvent处理事件流程</h2>
+
+<h3>第一步先重置</h3>
+
+<p>当ACTION_DOWN来临的时候，重制所有的状态（重制disallow标记位，mFirstTouchTarget置为空），并将ACTION_CACNEL分发给TouchTarget队列里面的View</p>
+
+<h3>第二步判断是否要拦截</h3>
+
+<ul>
+<li>如果是down必问一次，是否要拦截，虽然在问之前判断了disallow标记位，但是上面已经说了，只要down就会重置，所以子View无法影响父View对down的处理</li>
+<li>如果是其他的比如MOVE、UP，如果当前已经有子View在处理事件了，（mFirstTouchTarget不为空），此时标记位会起作用，如果设置了标记位那么不询问是否要拦截，如果没设置，那每次事件来都问下。。。。另一种情况是mFirstTouchTarget是空，说明之前down的时候已经拦截了，</li>
+</ul>
+
+
+<h3>第三步 如果不拦截，在<code>ACTION_DOWN</code>事件的时候找出合适的子View，将事件传递给他处理</h3>
+
+<h4>问题1:为什么都说如果我（子View）不吃下Down事件，后面的事件我就收不到了呢？</h4>
+
+<ul>
+<li>因为父View会在down事件（事件序列中的第一个事件）来临的时候遍历所有的子View，找出第一个愿意处理的，并将他添加到touchTarget队列中，后面有后续的事件来临的时候，会将事件给touchTarget队列中的View处理；所以让自己进touchTarget队列才是最要紧的事啊 :)</li>
+</ul>
+
+
+<h4>问题2:如果没找到咋整</h4>
+
+<ul>
+<li>处理down事件的时候，没有合适子View，或者子View都不愿意处理。。。此时mFirstTouchTarget为空，那么这个父View会调用默认实现（super.dispatchTouchEvent）,也就是View#dispatchTouchEvent然后走OnTouchEvent</li>
+</ul>
+
+
+<h4>问题3:如果子View处理了Down，不处理后续的事件（比如Move、up）咋整</h4>
+
+<ul>
+<li>不咋整，父View还是会将事件给你，你处理掉最好，处理不掉，父View会找TouchTarget队列中的下一个View来处理（多点触控的情况下），如果都不愿意处理。。。那这个事件就没了。。。父View会一路false返回，最后返回到activity那里</li>
+</ul>
+
+
+<h3>如果拦截了</h3>
+
+<ul>
+<li>走默认实现super.dispatchTouchEvent，然后走当前View#OnTouchEvent</li>
+<li>如果拦截了Down，那子View啥事件都收不到，除非你手动调用某个View的dispatchEvent(会不会很变态。。。)</li>
+<li>如果没拦截Down，拦截了Move，那么之前处理了部分事件的View（比如说之前吃了Down）将收到Cancel事件</li>
+</ul>
+
+
+<h2>关于touchTarget</h2>
+
+<blockquote><p>是个单链表结构，大部分情况下应该只有一个
+但如果是多点触控，就不止一个了，第一个手指是<code>ACTION_DOWN</code>，往后就是<code>ACTION_POINTER_DOWN</code>，因此对于<code>ACTION_DOWN</code>和<code>ACTION_POINTER_DOWN</code>走的都是<code>ACTION_DOWN</code>的逻辑</p></blockquote>
 </div>
 
 
@@ -178,12 +209,12 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
 
 
 
-<time class='entry-date' datetime='2018-06-05T18:25:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>6:25 pm</span></time>
+<time class='entry-date' datetime='2019-03-01T10:09:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2019</span></span> <span class='time'>10:09 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/kotlin/'>kotlin</a>
+    <a class='category' href='/blog/categories/android/'>android</a>
   
 </span>
 
@@ -199,10 +230,10 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2018/06/05/nullsafe-in-kotlin/" title="Previous Post: kotlin的空安全">&laquo; kotlin的空安全</a>
+        <a class="basic-alignment left" href="/blog/2018/11/30/qian-tao/" title="Previous Post: ScrollView嵌套ViewPager嵌套RecyclerView">&laquo; ScrollView嵌套ViewPager嵌套RecyclerView</a>
       
       
-        <a class="basic-alignment right" href="/blog/2018/11/23/get-started-to-swift/" title="Next Post: swift语法速查">swift语法速查 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2019/03/01/scroller-source-code/" title="Next Post: Scroller原理分析">Scroller原理分析 &raquo;</a>
       
     </p>
   </footer>
@@ -280,8 +311,8 @@ override fun onCreateView(inflater: LayoutInflater, &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/';
-        var disqus_url = 'http://tmac010sjh.github.io/blog/2018/06/05/watch-out-in-kotlin/';
+        var disqus_identifier = 'http://tmac010sjh.github.io/blog/2019/03/01/viewgroup-number-dispatchtouchevent/';
+        var disqus_url = 'http://tmac010sjh.github.io/blog/2019/03/01/viewgroup-number-dispatchtouchevent/';
         var disqus_script = 'embed.js';
       
     (function () {

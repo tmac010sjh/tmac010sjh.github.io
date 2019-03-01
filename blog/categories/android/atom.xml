@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | he is coding]]></title>
   <link href="http://tmac010sjh.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://tmac010sjh.github.io/"/>
-  <updated>2019-03-01T10:18:37+08:00</updated>
+  <updated>2019-03-01T10:22:34+08:00</updated>
   <id>http://tmac010sjh.github.io/</id>
   <author>
     <name><![CDATA[T_MAC]]></name>
@@ -53,20 +53,7 @@ public void computeScroll(){
 
 <h2>流程图</h2>
 
-<pre><code class="plantuml">
-View -&gt; Scroller: startScroll
-View -&gt; View: invalidate
-note over View : 触发重绘
-ViewGroup -&gt; ViewGroup: dispatchDraw
-ViewGroup -&gt; ViewGroup:drawChild
-ViewGroup -&gt; View: draw
-View -&gt; View: computeScroll
-note over  View: 此处回调我们重写的方法
-View -&gt; View: scrollTo
-note over  View: 更新mScrollX,mScrollY
-View -&gt; Canvas: translate
-note over  Canvas: 移动画布，由于显示\n的窗口固定，移动画\n布就给人一种view在\n滑动的感觉
-</code></pre>
+<p><img class="/images/<a" src="href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x57;&#88;&#50;&#x30;&#49;&#57;&#48;&#51;&#48;&#49;&#45;&#x31;&#48;&#50;&#x30;&#x34;&#x37;&#64;&#x32;&#x78;&#46;&#x70;&#110;&#103;">&#x57;&#x58;&#50;&#x30;&#x31;&#x39;&#48;&#51;&#x30;&#49;&#45;&#49;&#48;&#50;&#48;&#x34;&#x37;&#x40;&#50;&#x78;&#x2e;&#x70;&#110;&#x67;</a>"></p>
 ]]></content>
   </entry>
   
