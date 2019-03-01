@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android | he is coding]]></title>
+  <link href="http://tmac010sjh.github.io/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://tmac010sjh.github.io/"/>
+  <updated>2019-03-01T10:13:07+08:00</updated>
+  <id>http://tmac010sjh.github.io/</id>
+  <author>
+    <name><![CDATA[T_MAC]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Scroller原理分析]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2019/03/01/scroller-source-code/"/>
+    <updated>2019-03-01T10:10:21+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2019/03/01/scroller-source-code</id>
+    <content type="html"><![CDATA[<h2>代码模版</h2>
+
+<pre><code class="java">//实例化Scroller对象，在自定义View中，mContext可以在自定义View的构造方法中获取
+Scroller mScroller = new Scroller(mContext);
+
+//在一个自定义View中实现该方法，方法名可以自定义
+public void smoothScrollTo(int destX,int destY){
+    int scrollX = getScrollX();
+    int scrollY  = getScrollY();
+    int dx = destX - scrollX;
+    int dy = destY - scrollY;
+    //前两个参数表示起始位置，第三第四个参数表示位移量，最后一个参数表示时间
+    //这一步只是赋值而已
+    mScroller.startScroll(scrollX,scrollY,dx,dy,1000);
+    //触发重绘，开始滑动
+    invalidate();
+}
+
+//自定义View中重写该方法
+@Override
+public void computeScroll(){
+    if(mScroller.computeScrollOffset()){
+       //修改View#mScrollX和mScrollY
+       scrollTo(mScroller.getCurrX(),mScroller.getCurrY());
+       //新一轮重绘，不断循环
+       postInvalidate();
+    }
+}
+</code></pre>
+
+<!-- more -->
+
+
+<h2>流程图</h2>
+
+<pre><code class="plantuml">
+View -&gt; Scroller: startScroll
+View -&gt; View: invalidate
+note over View : 触发重绘
+ViewGroup -&gt; ViewGroup: dispatchDraw
+ViewGroup -&gt; ViewGroup:drawChild
+ViewGroup -&gt; View: draw
+View -&gt; View: computeScroll
+note over  View: 此处回调我们重写的方法
+View -&gt; View: scrollTo
+note over  View: 更新mScrollX,mScrollY
+View -&gt; Canvas: translate
+note over  Canvas: 移动画布，由于显示\n的窗口固定，移动画\n布就给人一种view在\n滑动的感觉
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ViewGroup对触摸事件的处理流程]]></title>
+    <link href="http://tmac010sjh.github.io/blog/2019/03/01/viewgroup-number-dispatchtouchevent/"/>
+    <updated>2019-03-01T10:09:39+08:00</updated>
+    <id>http://tmac010sjh.github.io/blog/2019/03/01/viewgroup-number-dispatchtouchevent</id>
+    <content type="html"><![CDATA[<p>伪代码表示，摘自《Android开发艺术探索》
+<code>
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    boolean consume = false;
+    if (onInterceptTouchEvent(ev)) {
+        consume = onTouchEvent(ev);
+    } else {
+        consume = child.dispatchTouchEvent(ev);
+    }
+    return consume;
+}
+</code></p>
+
+<!-- more -->
+
+
+<h2>ViewGroup#dispatchTouchEvent处理事件流程</h2>
+
+<h3>第一步先重置</h3>
+
+<p>当ACTION_DOWN来临的时候，重制所有的状态（重制disallow标记位，mFirstTouchTarget置为空），并将ACTION_CACNEL分发给TouchTarget队列里面的View</p>
+
+<h3>第二步判断是否要拦截</h3>
+
+<ul>
+<li>如果是down必问一次，是否要拦截，虽然在问之前判断了disallow标记位，但是上面已经说了，只要down就会重置，所以子View无法影响父View对down的处理</li>
+<li>如果是其他的比如MOVE、UP，如果当前已经有子View在处理事件了，（mFirstTouchTarget不为空），此时标记位会起作用，如果设置了标记位那么不询问是否要拦截，如果没设置，那每次事件来都问下。。。。另一种情况是mFirstTouchTarget是空，说明之前down的时候已经拦截了，</li>
+</ul>
+
+
+<h3>第三步 如果不拦截，在<code>ACTION_DOWN</code>事件的时候找出合适的子View，将事件传递给他处理</h3>
+
+<h4>问题1:为什么都说如果我（子View）不吃下Down事件，后面的事件我就收不到了呢？</h4>
+
+<ul>
+<li>因为父View会在down事件（事件序列中的第一个事件）来临的时候遍历所有的子View，找出第一个愿意处理的，并将他添加到touchTarget队列中，后面有后续的事件来临的时候，会将事件给touchTarget队列中的View处理；所以让自己进touchTarget队列才是最要紧的事啊 :)</li>
+</ul>
+
+
+<h4>问题2:如果没找到咋整</h4>
+
+<ul>
+<li>处理down事件的时候，没有合适子View，或者子View都不愿意处理。。。此时mFirstTouchTarget为空，那么这个父View会调用默认实现（super.dispatchTouchEvent）,也就是View#dispatchTouchEvent然后走OnTouchEvent</li>
+</ul>
+
+
+<h4>问题3:如果子View处理了Down，不处理后续的事件（比如Move、up）咋整</h4>
+
+<ul>
+<li>不咋整，父View还是会将事件给你，你处理掉最好，处理不掉，父View会找TouchTarget队列中的下一个View来处理（多点触控的情况下），如果都不愿意处理。。。那这个事件就没了。。。父View会一路false返回，最后返回到activity那里</li>
+</ul>
+
+
+<h3>如果拦截了</h3>
+
+<ul>
+<li>走默认实现super.dispatchTouchEvent，然后走当前View#OnTouchEvent</li>
+<li>如果拦截了Down，那子View啥事件都收不到，除非你手动调用某个View的dispatchEvent(会不会很变态。。。)</li>
+<li>如果没拦截Down，拦截了Move，那么之前处理了部分事件的View（比如说之前吃了Down）将收到Cancel事件</li>
+</ul>
+
+
+<h2>关于touchTarget</h2>
+
+<blockquote><p>是个单链表结构，大部分情况下应该只有一个
+但如果是多点触控，就不止一个了，第一个手指是<code>ACTION_DOWN</code>，往后就是<code>ACTION_POINTER_DOWN</code>，因此对于<code>ACTION_DOWN</code>和<code>ACTION_POINTER_DOWN</code>走的都是<code>ACTION_DOWN</code>的逻辑</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>
